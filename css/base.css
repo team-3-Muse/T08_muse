@@ -1,0 +1,245 @@
+/* =========================================================
+   base.css – bruges på alle sider
+   Skrift, farver (CSS-variabler), grundregler og indholdsbredde.
+   ---------------------------------------------------------
+   Mobile first: først stilarterne til mobil (uden media query).
+   Tablet 768–1023 px: @media (min-width: 48em) and (max-width: 63.99em)
+   Desktop fra 1024 px: @media (min-width: 64em)
+   ========================================================= */
+
+/* ---------- SKRIFT ---------- */
+
+/* Fredoka og Quicksand ligger i mappen /fonts (hentet fra Google Fonts).
+   Så skal browseren ikke spørge en anden server – hurtigere og mere bæredygtigt. */
+
+@font-face {
+  font-family: "Fredoka";
+  src: url("../fonts/fredoka-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Fredoka";
+  src: url("../fonts/fredoka-latin-500-normal.woff2") format("woff2");
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Quicksand";
+  src: url("../fonts/quicksand-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Quicksand";
+  src: url("../fonts/quicksand-latin-500-normal.woff2") format("woff2");
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Quicksand";
+  src: url("../fonts/quicksand-latin-600-normal.woff2") format("woff2");
+  font-weight: 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Quicksand";
+  src: url("../fonts/quicksand-latin-700-normal.woff2") format("woff2");
+  font-weight: 700;
+  font-display: swap;
+}
+
+/* ---------- FARVER OG GRUNDREGLER ---------- */
+
+:root {
+  /* Farverne fra Figma (variabler med samme navne) */
+  --offwhite: #f6f3ec;
+  --brun: #290f07;      /* tekst og streger */
+  --plum: #601d40;      /* logo, footer-tekst */
+  --smoer: #fdedb1;
+  --fersken: #ffd6bf;
+  --orange: #fea57d;    /* Makeup */
+  --pink: #ff7ec1;      /* handling / valgt */
+  --pink-lys: #ffd0e8;  /* Shop-båndet */
+  --lime: #e8e886;
+  --himmel: #d9e7ff;
+  --lavendel: #c2c6ff;  /* Hudpleje */
+  --fejl: #c40153;
+  /* Skrift */
+  --overskrift: "Fredoka", sans-serif;
+  --tekst: "Quicksand", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--offwhite);
+  color: var(--brun);
+  font-family: var(--tekst);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-family: var(--overskrift);
+  font-weight: 500;
+  line-height: 1.15;
+}
+
+/* Typeskala (mobil / desktop): H1 32/44 · H2 24/32 */
+
+h1 {
+  font-size: 32px;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+p {
+  margin: 0;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+}
+
+/* Synlig fokus-ring, når man bruger tastaturet */
+
+:focus-visible {
+  outline: 2px solid var(--plum);
+  outline-offset: 3px;
+}
+
+/* Kun for skærmlæsere */
+
+.skjult {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (min-width: 64em) {
+  h1 {
+    font-size: 44px;
+  }
+
+  h2 {
+    font-size: 32px;
+  }
+}
+
+/* ---------- FÆLLES BYGGEKLODSER (bredde, sektioner, tekst) ---------- */
+
+/* Indholdet er højst 1200 px bredt (12 kolonner) og har 16 px margen på mobil */
+
+.indre {
+  width: min(1200px, 100% - 32px);
+  margin-inline: auto;
+}
+
+/* Smal, centreret kolonne til sider med én opgave (kontakt, 404) – 6 kolonner = 584 px */
+
+.indre--smal {
+  width: min(584px, 100% - 32px);
+}
+
+.sektion {
+  padding-block: 40px;
+}
+
+.sektion--fersken {
+  background-color: var(--fersken);
+}
+
+.intro {
+  margin-top: 8px;
+  font-size: 16px;
+}
+
+.lille {
+  font-size: 13px;
+}
+
+.midt {
+  margin-top: 32px;
+  text-align: center;
+}
+
+@media (min-width: 64em) {
+  .sektion {
+    padding-block: 64px;
+  }
+
+  .intro {
+    font-size: 18px;
+    font-weight: 400;
+  }
+}
+
+/* ---------- MINDRE BEVÆGELSE ---------- */
+
+/* Hvis brugeren har slået animationer fra, stopper banner, vrik og drejninger */
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ---------- TABLET (768–1023 PX) ---------- */
+
+/* Mellem mobil og desktop: mere luft, to kolonner hvor der er plads,
+   3 produkter pr. række. Menuen er stadig burgeren. */
+
+@media (min-width: 48em) and (max-width: 63.99em) {
+  h1 {
+    font-size: 40px;
+  }
+
+  h2 {
+    font-size: 28px;
+  }
+
+  /* 8 kolonner med 24 px margen */
+
+  .indre {
+    width: min(1200px, 100% - 48px);
+  }
+
+  .indre--smal {
+    width: min(584px, 100% - 48px);
+  }
+
+  .sektion {
+    padding-block: 48px;
+  }
+}

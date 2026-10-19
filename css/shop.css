@@ -1,0 +1,89 @@
+/* =========================================================
+   shop.css – kun shop.html
+   Værktøjslinje (chips, filter, sortering) og produkt-grid.
+   ---------------------------------------------------------
+   Mobile first: først stilarterne til mobil (uden media query).
+   Tablet 768–1023 px: @media (min-width: 48em) and (max-width: 63.99em)
+   Desktop fra 1024 px: @media (min-width: 64em)
+   ========================================================= */
+
+/* ---------- SHOP ---------- */
+
+.vaerktoej {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.vaerktoej__hoejre {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sorter {
+  font-size: 14px;
+}
+
+/* Filter-knappen åbner en lille boks med pris-valg */
+
+.filter {
+  position: relative;
+}
+
+.filter summary {
+  list-style: none;
+}
+
+.filter summary::-webkit-details-marker {
+  display: none;
+}
+
+.filter__boks {
+  position: absolute;
+  z-index: 5;
+  margin: 8px 0 0;
+  padding: 16px;
+  min-width: 200px;
+  background-color: var(--offwhite);
+  border: 1px solid var(--brun);
+  border-radius: 16px;
+}
+
+.filter__boks legend {
+  font-family: var(--overskrift);
+}
+
+.filter__boks label {
+  display: block;
+  padding: 4px 0;
+  font-size: 14px;
+}
+
+/* Produkt-grid: 2 pr. række på mobil, 4 på desktop */
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px 16px;
+}
+
+@media (min-width: 64em) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px 32px;
+  }
+}
+
+/* ---------- TABLET (768–1023 PX) ---------- */
+
+@media (min-width: 48em) and (max-width: 63.99em) {
+  /* Shop: 3 produkter pr. række */
+
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px 24px;
+  }
+}

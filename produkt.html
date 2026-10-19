@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Produkt – MUSE</title>
+  <meta name="description" content="Se produktet, læs hvordan du bruger det, og hvad andre unge siger.">
+  <link rel="icon" href="img/brand/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/komponenter.css">
+  <link rel="stylesheet" href="css/shapes.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/produkt.css">
+</head>
+<body>
+  <!-- ========== HEADER ========== -->
+  <header class="top" id="top">
+    <div class="top__indre">
+      <a class="burger" href="#menu" aria-controls="menu" aria-label="Åbn menu">
+        <svg width="22" height="16" viewBox="0 0 22 16" aria-hidden="true"><path d="M1 1h20M1 8h20M1 15h20" stroke="#290F07" stroke-width="2" stroke-linecap="round"/></svg>
+      </a>
+
+      <nav class="top__nav" aria-label="Hovedmenu">
+        <ul>
+          <li><a class="pill pill--pink" href="shop.html" aria-current="page">Shop</a></li>
+          <li><a class="pill pill--smoer" href="404.html">Om os</a></li>
+          <li><a class="pill pill--fersken" href="kontakt.html">Kontakt</a></li>
+        </ul>
+      </nav>
+
+      <a class="logo" href="index.html"><img src="img/brand/logo.svg" alt="MUSE – til forsiden" width="82" height="40"></a>
+
+      <ul class="top__ikoner">
+        <li><a class="ikon" href="sog.html"><img src="img/ikoner/soeg.svg" alt="Søg" width="24" height="24"></a></li>
+        <li><a class="ikon" href="404.html"><img src="img/ikoner/profil.svg" alt="Profil" width="24" height="24"></a></li>
+        <li><a class="ikon" href="404.html"><img src="img/ikoner/kurv.svg" alt="Kurv" width="24" height="24"></a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- Mobilmenu uden JavaScript: burgeren linker til #menu, og CSS (:target i layout.css) viser menuen.
+       Krydset linker til #top og lukker den igen. -->
+  <div class="menu" id="menu">
+    <a class="menu__luk" href="#top" aria-label="Luk menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4l16 16M20 4L4 20" stroke="#290F07" stroke-width="2" stroke-linecap="round"/></svg>
+    </a>
+    <nav aria-label="Mobilmenu">
+      <ul class="menu__liste">
+        <li><a class="menu__pill pill--pink" href="shop.html">Shop</a></li>
+        <li><a class="menu__pill pill--himmel" href="index.html">Lær at starte</a></li>
+        <li><a class="menu__pill pill--lime" href="index.html#videoer">Community</a></li>
+        <li><a class="menu__pill pill--smoer" href="404.html">Om os</a></li>
+        <li><a class="menu__pill pill--fersken" href="kontakt.html">Hjælp &amp; kontakt</a></li>
+      </ul>
+      <a class="knap" href="404.html">Se din kurv</a>
+    </nav>
+  </div>
+
+  <main id="indhold">
+
+    <!-- ============================================================
+         TEAM: Hele siden herunder udfyldes af js/produkt.js ud fra ?id= i adressen.
+         Teksten herunder er et eksempel (Red Lipstick). Jeres JS skifter den ud med det rigtige produkt.
+         Hooks (id'er): #produkt-billede, #produkt-navn, #produkt-pris, #produkt-badge,
+         #laeg-i-kurv, #tekst-hvad, #tekst-saadan, #tekst-tryg, #citat-tekst, #citat-navn,
+         #ikke-fundet  (ekstra: #mere og #mere-sektion)
+         ============================================================ -->
+    <section class="produkt" id="produkt">
+      <div class="indre">
+        <a class="knap knap--ghost" href="shop.html"><span aria-hidden="true">←</span> Shop</a>
+
+        <div class="produkt__grid">
+          <div class="produkt__billede">
+            <img class="shape-hero" id="produkt-billede" src="img/products/red-lipstick.webp" alt="Åben pink Red Lipstick med rød stift og låget ved siden af foran et stort præget M i en lyserød væg" width="850" height="1050">
+          </div>
+
+          <div class="produkt__info">
+            <h1 id="produkt-navn">Red Lipstick</h1>
+            <p class="produkt__pris" id="produkt-pris">79 kr</p>
+            <p class="badge badge--makeup" id="produkt-badge">Blød & fugtig</p>
+            <div class="knapper">
+              <button class="knap" type="button" id="laeg-i-kurv">Læg i kurv</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ACCORDIONS (details/summary åbner og lukker uden JavaScript – kun teksten skal sættes ind) ===== -->
+    <section class="accordions" id="accordions">
+      <details class="accordion accordion--smoer">
+        <summary>Hvad gør den for dig?</summary>
+        <p id="tekst-hvad">En klassisk rød farve med en blød og fugtig formel, der ikke tørrer læberne ud.</p>
+      </details>
+      <details class="accordion accordion--fersken">
+        <summary>Sådan bruger du den</summary>
+        <p id="tekst-saadan">Start midt på læben og arbejd ud mod mundvigene. Dup med fingeren for et blødere look.</p>
+      </details>
+      <details class="accordion accordion--himmel">
+        <summary>Tryg &amp; Mild for huden</summary>
+        <p id="tekst-tryg">Cremet formel med fugt. Ingen stærk duft.</p>
+      </details>
+    </section>
+
+    <!-- ===== CITAT (TEAM: sæt produktets citat ind – det står i data/produkter.json) ===== -->
+    <section class="citat" id="citat" aria-label="Det siger andre unge">
+      <div class="citat__boble shape-bubble">
+        <span class="citat__tegn" aria-hidden="true">“</span>
+        <blockquote>
+          <p id="citat-tekst">Den føles slet ikke tør. Jeg bruger den hver dag.</p>
+          <footer id="citat-navn">Ida, 15 år</footer>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- ===== PRODUKTET FINDES IKKE (vises kun hvis id er forkert) ===== -->
+    <section class="besked-side" id="ikke-fundet" hidden>
+      <div class="indre indre--smal">
+        <img src="img/brand/doodle-404.svg" alt="" width="120" height="120">
+        <h1>Ups!<br>Produktet findes ikke</h1>
+        <p>Det er måske udsolgt eller flyttet. Kig på vores mest elskede favoritter herunder.</p>
+        <a class="knap" href="shop.html">Se alle produkter</a>
+      </div>
+    </section>
+
+    <!-- ===== DU VIL OGSÅ ELSKE (karrusel) ===== -->
+    <section class="sektion" id="mere-sektion" hidden>
+      <div class="indre">
+        <h2 id="mere-titel">Du vil også elske</h2>
+        <div class="karrusel">
+          <!-- TEAM (EKSTRA): tegn de andre produkter her med samme kort som i shoppen (h3),
+               og fjern hidden på sektionen, når det virker. -->
+          <ul class="karrusel__spor" id="mere">
+            
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="bund">
+    <div class="bund__top">
+      <a class="bund__logo" href="index.html"><img src="img/brand/logo.svg" alt="MUSE – til forsiden" width="123" height="60"></a>
+      <p>Din introduktion til nem &amp; tryg makeup.</p>
+    </div>
+
+    <!-- Hvert link er sit eget tryk-mål på 24 px (WCAG 2.5.8) -->
+    <nav class="bund__links" aria-label="Footer">
+      <ul>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="404.html">Levering</a></li>
+      </ul>
+      <ul>
+        <li><a href="404.html">Hjælp</a></li>
+        <li><a href="kontakt.html">Kontakt</a></li>
+      </ul>
+      <ul>
+        <li><a href="404.html">Om os</a></li>
+        <li><a href="404.html">FAQ</a></li>
+      </ul>
+    </nav>
+
+    <ul class="bund__sociale">
+      <li><a href="https://www.tiktok.com"><img src="img/ikoner/tiktok.svg" alt="TikTok" width="32" height="32"></a></li>
+      <li><a href="https://www.instagram.com"><img src="img/ikoner/instagram.svg" alt="Instagram" width="32" height="32"></a></li>
+      <li><a href="https://www.youtube.com"><img src="img/ikoner/youtube.svg" alt="YouTube" width="32" height="32"></a></li>
+      <li><a href="https://www.snapchat.com"><img src="img/ikoner/snapchat.svg" alt="Snapchat" width="32" height="32"></a></li>
+    </ul>
+
+    <p class="bund__copy">Skabt med 💖 til dig. © MUSE 2026</p>
+  </footer>
+
+  <!-- Lille besked nederst på skærmen (fx "Lagt i kurven"). Vis den ved at give den klassen "besked--vis" (se layout.css) -->
+  <p class="besked" id="besked" role="status"></p>
+
+  <!-- TEAM: skriv jeres JavaScript i js/produkt.js -->
+  <script src="js/produkt.js" defer></script>
+</body>
+</html>

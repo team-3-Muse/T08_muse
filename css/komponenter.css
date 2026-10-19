@@ -1,0 +1,466 @@
+/* =========================================================
+   komponenter.css – bruges på alle sider
+   Små byggeklodser, der går igen: knapper, pills, chips, badges,
+   pile, karrusel, produktkort, hjerte og accordions.
+   ---------------------------------------------------------
+   Mobile first: først stilarterne til mobil (uden media query).
+   Tablet 768–1023 px: @media (min-width: 48em) and (max-width: 63.99em)
+   Desktop fra 1024 px: @media (min-width: 64em)
+   ========================================================= */
+
+/* ---------- KNAPPER, PILLS, CHIPS, BADGES, PILE OG KARRUSEL ---------- */
+
+/* Knap (CTA): pink pille med hård skygge. Hover = større skygge, tryk = ingen skygge */
+
+.knap {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background-color: var(--pink);
+  border: 1px solid var(--brun);
+  border-radius: 999px;
+  box-shadow: 2px 2px 0 var(--brun);
+  color: var(--brun);
+  font-family: var(--overskrift);
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.knap:hover {
+  box-shadow: 5px 5px 0 var(--brun);
+}
+
+.knap:active {
+  box-shadow: none;
+  transform: translate(2px, 2px);
+}
+
+.knap--hvid {
+  background-color: var(--offwhite);
+}
+
+/* Ghost-knap: kun kant, ingen skygge */
+
+.knap--ghost {
+  padding: 8px 13px;
+  background-color: transparent;
+  box-shadow: none;
+  font-family: var(--tekst);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.knap--ghost:hover {
+  background-color: rgba(246, 243, 236, 0.6);
+  box-shadow: none;
+}
+
+.knapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.knapper--midt {
+  justify-content: center;
+}
+
+/* Pills i headeren (farven = sidens farve) */
+
+.pill {
+  display: inline-block;
+  padding: 8px 13px;
+  border: 1px solid var(--brun);
+  border-radius: 999px;
+  font-size: 16px;
+  text-decoration: none;
+  transition: transform 0.2s;
+}
+
+.pill:hover {
+  transform: rotate(3deg);
+}
+
+.pill[aria-current="page"] {
+  text-decoration: underline;
+}
+
+.pill--pink {
+  background-color: var(--pink);
+}
+
+.pill--smoer {
+  background-color: var(--smoer);
+}
+
+.pill--fersken {
+  background-color: var(--fersken);
+}
+
+.pill--himmel {
+  background-color: var(--himmel);
+}
+
+.pill--lime {
+  background-color: var(--lime);
+}
+
+/* Chips (kategorier) */
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chips--midt {
+  justify-content: center;
+}
+
+.chip {
+  display: inline-block;
+  padding: 8px 13px;
+  background-color: transparent;
+  border: 1px solid var(--brun);
+  border-radius: 999px;
+  color: var(--brun);
+  font-family: var(--overskrift);
+  font-size: 14px;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.chip:hover {
+  transform: rotate(3deg);
+}
+
+/* Den valgte chip bliver pink */
+
+.chip[aria-current="page"],
+.chip[aria-pressed="true"] {
+  background-color: var(--pink);
+}
+
+/* ... men Makeup bliver orange og Hudpleje lavendel (samme farver som badges og paneler) */
+
+.chip[data-kategori="makeup"][aria-current="page"],
+.chip[data-kategori="makeup"][aria-pressed="true"] {
+  background-color: var(--orange);
+}
+
+.chip[data-kategori="hudpleje"][aria-current="page"],
+.chip[data-kategori="hudpleje"][aria-pressed="true"] {
+  background-color: var(--lavendel);
+}
+
+.chip--hvid {
+  background-color: var(--offwhite);
+}
+
+/* Badge (fordel): orange for Makeup, lavendel for Hudpleje */
+
+.badge {
+  display: inline-block;
+  padding: 8px 13px;
+  border: 1px solid var(--brun);
+  border-radius: 999px;
+  font-family: var(--overskrift);
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+.badge--makeup {
+  background-color: var(--orange);
+}
+
+.badge--hudpleje {
+  background-color: var(--lavendel);
+}
+
+/* Dropdown (sortering og emne) */
+
+.vaelg {
+  padding: 8px 40px 8px 16px;
+  background-color: var(--offwhite);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23290F07' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  border: 1px solid var(--brun);
+  border-radius: 999px;
+  color: var(--brun);
+  font-family: var(--tekst);
+  font-size: 14px;
+  font-weight: 500;
+  appearance: none;
+}
+
+/* Pile (karrusel og citat): sky-formet knap */
+
+.pil {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.pil:hover {
+  transform: rotate(10deg);
+}
+
+.pil--venstre img {
+  transform: rotate(180deg); /* samme pil, bare vendt */
+}
+
+/* Inaktiv pil (fx venstre pil i starten) */
+
+.pil:disabled {
+  opacity: 0.35;
+  cursor: default;
+  transform: none;
+}
+
+/* Karrusel: en vandret liste man kan scrolle, med pile ovenpå */
+
+.karrusel {
+  position: relative;
+}
+
+.karrusel__spor {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.karrusel__spor > li {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+}
+
+.karrusel .pil {
+  position: absolute;
+  top: 35%;
+  z-index: 2;
+}
+
+.karrusel .pil--venstre {
+  left: 12px;
+}
+
+.karrusel .pil--hoejre {
+  right: 12px;
+}
+
+@media (min-width: 64em) {
+  .karrusel__spor {
+    gap: 32px;
+  }
+
+  .pil {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+/* ---------- INTRO-BÅND OG PRODUKTKORT ---------- */
+
+.intro-baand {
+  padding-block: 24px;
+}
+
+.intro-baand--pink {
+  background-color: var(--pink-lys);
+}
+
+#antal {
+  margin-block: 24px;
+}
+
+#set-alle {
+  margin-top: 24px;
+}
+
+/* Produktkort */
+
+.kort {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.kort__link {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  text-decoration: none;
+}
+
+.kort__billede {
+  display: block;
+  margin-bottom: 4px;
+  overflow: hidden;
+  aspect-ratio: 170 / 210;
+}
+
+.kort__billede img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+/* Hover: billedet zoomer lidt ind */
+
+.kort__link:hover img {
+  transform: scale(1.06);
+}
+
+.kort__navn {
+  font-size: 18px;
+}
+
+.kort__pris {
+  font-size: 16px;
+}
+
+/* Hjertet: altid øverst til højre i billedet */
+
+.hjerte {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.hjerte:hover {
+  transform: scale(1.1);
+}
+
+/* Når hjertet er valgt, bliver det fyldt */
+
+.hjerte[aria-pressed="true"] path {
+  fill: var(--plum);
+}
+
+/* Kortene i karrusellen */
+
+.karrusel .kort {
+  width: 172px;
+}
+
+@media (min-width: 64em) {
+  .intro-baand {
+    padding-block: 48px;
+  }
+
+  .kort__navn {
+    font-size: 20px;
+  }
+
+  .karrusel .kort {
+    width: 276px;
+  }
+}
+
+/* ---------- ACCORDIONS ---------- */
+
+/* Accordions: tre farvede bånd i fuld bredde */
+
+.accordion {
+  border-bottom: 1px solid var(--brun);
+}
+
+.accordion--smoer {
+  background-color: var(--smoer);
+}
+
+.accordion--fersken {
+  background-color: var(--fersken);
+}
+
+.accordion--himmel {
+  background-color: var(--himmel);
+}
+
+.accordion summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 16px;
+  font-family: var(--overskrift);
+  font-size: 16px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.accordion summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Pilen til højre drejer, når accordionen er åben */
+
+.accordion summary::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-right: 1.5px solid var(--brun);
+  border-bottom: 1.5px solid var(--brun);
+  transform: rotate(45deg);
+  transition: transform 0.2s;
+}
+
+.accordion[open] summary::after {
+  transform: rotate(-135deg);
+}
+
+.accordion p {
+  padding: 0 16px 24px;
+}
+
+@media (min-width: 64em) {
+  .accordion summary {
+    padding: 32px calc((100% - 1200px) / 2);
+  }
+
+  .accordion p {
+    padding: 0 calc((100% - 1200px) / 2) 32px;
+  }
+}
+
+/* ---------- MINDRE BEVÆGELSE ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .karrusel__spor {
+    scroll-behavior: auto;
+  }
+}
+
+/* ---------- TABLET (768–1023 PX) ---------- */
+
+@media (min-width: 48em) and (max-width: 63.99em) {
+  .karrusel .kort {
+    width: 220px;
+  }
+
+  .accordion summary,
+  .accordion p {
+    padding-inline: 24px;
+  }
+}

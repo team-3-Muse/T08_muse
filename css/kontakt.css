@@ -1,0 +1,145 @@
+/* =========================================================
+   kontakt.css – kun kontakt.html
+   Formular, fejlbeskeder og fejloversigt.
+   ---------------------------------------------------------
+   Mobile first: først stilarterne til mobil (uden media query).
+   Tablet 768–1023 px: @media (min-width: 48em) and (max-width: 63.99em)
+   Desktop fra 1024 px: @media (min-width: 64em)
+   ========================================================= */
+
+/* ---------- FARVET INTRO-BÅND ---------- */
+
+.intro-baand--fersken {
+  background-color: var(--fersken);
+}
+
+/* ---------- KONTAKT ---------- */
+
+.formular {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.felt {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.felt label {
+  font-family: var(--overskrift);
+}
+
+.valgfrit {
+  font-family: var(--tekst);
+}
+
+.felt input,
+.felt textarea,
+.felt .vaelg {
+  width: 100%;
+  padding: 12px 20px;
+  background-color: var(--offwhite);
+  border: 1px solid var(--plum);
+  border-radius: 999px;
+  color: var(--brun);
+  font-family: var(--tekst);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.felt textarea {
+  border-radius: 24px;
+  resize: vertical;
+}
+
+/* Fokus: himmelblå baggrund + plum ring */
+
+.felt input:focus,
+.felt textarea:focus,
+.felt .vaelg:focus {
+  background-color: var(--himmel);
+}
+
+/* Fejl: rød kant (sættes af kontakt.js med aria-invalid) */
+
+.felt [aria-invalid="true"] {
+  border-color: var(--fejl);
+}
+
+.felt__fejl {
+  color: var(--fejl);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.felt__fejl:empty {
+  display: none;
+}
+
+.felt__fejl::before {
+  content: "⚠ ";
+}
+
+.fejloversigt {
+  margin-bottom: 24px;
+  padding: 16px 24px;
+  border: 1px solid var(--fejl);
+  border-radius: 16px;
+  color: var(--fejl);
+}
+
+.fejloversigt__titel {
+  font-weight: 600;
+}
+
+.fejloversigt ul {
+  margin-top: 8px;
+  padding-left: 24px;
+  list-style: disc;
+}
+
+.fejloversigt a {
+  font-weight: 700;
+}
+
+.accordion--midt summary,
+.accordion--midt p {
+  padding-inline: 16px;
+}
+
+@media (min-width: 64em) {
+  /* Kontakt er en "én opgave"-side: centreret overskrift og formular */
+
+  .intro-baand--fersken {
+    padding-block: 40px;
+  }
+
+  .intro-baand--midt {
+    text-align: center;
+  }
+
+  .accordion--midt summary,
+  .accordion--midt p {
+    padding-inline: calc((100% - 584px) / 2);
+  }
+}
+
+/* ---------- TABLET (768–1023 PX) ---------- */
+
+@media (min-width: 48em) and (max-width: 63.99em) {
+  /* Accordionen om privatliv får samme luft som på produktsiden */
+  .accordion--midt summary,
+  .accordion--midt p {
+    padding-inline: 24px;
+  }
+
+  /* Kontakt: centreret som på desktop */
+
+  .intro-baand--midt {
+    text-align: center;
+  }
+}

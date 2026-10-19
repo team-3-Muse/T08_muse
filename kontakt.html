@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kontakt – MUSE</title>
+  <meta name="description" content="Skriv til MUSE – vi svarer inden for 24 timer.">
+  <link rel="icon" href="img/brand/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/komponenter.css">
+  <link rel="stylesheet" href="css/shapes.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/kontakt.css">
+</head>
+<body>
+  <!-- ========== HEADER ========== -->
+  <header class="top" id="top">
+    <div class="top__indre">
+      <a class="burger" href="#menu" aria-controls="menu" aria-label="Åbn menu">
+        <svg width="22" height="16" viewBox="0 0 22 16" aria-hidden="true"><path d="M1 1h20M1 8h20M1 15h20" stroke="#290F07" stroke-width="2" stroke-linecap="round"/></svg>
+      </a>
+
+      <nav class="top__nav" aria-label="Hovedmenu">
+        <ul>
+          <li><a class="pill pill--pink" href="shop.html">Shop</a></li>
+          <li><a class="pill pill--smoer" href="404.html">Om os</a></li>
+          <li><a class="pill pill--fersken" href="kontakt.html" aria-current="page">Kontakt</a></li>
+        </ul>
+      </nav>
+
+      <a class="logo" href="index.html"><img src="img/brand/logo.svg" alt="MUSE – til forsiden" width="82" height="40"></a>
+
+      <ul class="top__ikoner">
+        <li><a class="ikon" href="sog.html"><img src="img/ikoner/soeg.svg" alt="Søg" width="24" height="24"></a></li>
+        <li><a class="ikon" href="404.html"><img src="img/ikoner/profil.svg" alt="Profil" width="24" height="24"></a></li>
+        <li><a class="ikon" href="404.html"><img src="img/ikoner/kurv.svg" alt="Kurv" width="24" height="24"></a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- Mobilmenu uden JavaScript: burgeren linker til #menu, og CSS (:target i layout.css) viser menuen.
+       Krydset linker til #top og lukker den igen. -->
+  <div class="menu" id="menu">
+    <a class="menu__luk" href="#top" aria-label="Luk menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4l16 16M20 4L4 20" stroke="#290F07" stroke-width="2" stroke-linecap="round"/></svg>
+    </a>
+    <nav aria-label="Mobilmenu">
+      <ul class="menu__liste">
+        <li><a class="menu__pill pill--pink" href="shop.html">Shop</a></li>
+        <li><a class="menu__pill pill--himmel" href="index.html">Lær at starte</a></li>
+        <li><a class="menu__pill pill--lime" href="index.html#videoer">Community</a></li>
+        <li><a class="menu__pill pill--smoer" href="404.html">Om os</a></li>
+        <li><a class="menu__pill pill--fersken" href="kontakt.html">Hjælp &amp; kontakt</a></li>
+      </ul>
+      <a class="knap" href="404.html">Se din kurv</a>
+    </nav>
+  </div>
+
+  <main id="indhold">
+
+    <section class="intro-baand intro-baand--fersken intro-baand--midt">
+      <div class="indre indre--smal">
+        <h1>Kontakt</h1>
+        <p class="intro">Har du et spørgsmål om makeup, din ordre eller noget helt tredje? Skriv til os – vi svarer inden for 24 timer.</p>
+      </div>
+    </section>
+
+    <section class="sektion">
+      <div class="indre indre--smal">
+
+        <!-- ============================================================
+             TEAM: Kontaktformularen skal have JavaScript i js/kontakt.js.
+             HTML-valideringen (required, type="email", pattern, minlength) står allerede i formularen.
+             Hooks (id'er): #kontakt-form, #fejloversigt (+ #fejl-titel, #fejl-liste),
+             .felt__fejl under hvert felt (#navn-fejl, #email-fejl, #besked-fejl), #tak (+ #tak-titel, #tak-tekst).
+             ============================================================ -->
+
+        <!-- Fejloversigt: vises øverst, hvis der er fejl -->
+        <div class="fejloversigt" id="fejloversigt" tabindex="-1" hidden>
+          <p class="fejloversigt__titel" id="fejl-titel"></p>
+          <ul id="fejl-liste"></ul>
+        </div>
+
+        <!-- HTML-validering: required, type="email", pattern og minlength.
+             TEAM: Uden JS bruger browseren sine egne fejlbeskeder. Når I laver jeres egne beskeder, så skriv
+             novalidate på formularen og tjek felterne med checkValidity() i js/kontakt.js.
+             Der er ingen server: formularen bruger method="get", så den aldrig giver en fejlside på GitHub Pages.
+             Med JS: brug event.preventDefault() ved submit og vis #tak i stedet. -->
+        <form class="formular" id="kontakt-form" action="kontakt.html" method="get">
+          <p class="lille">Alle felter skal udfyldes, medmindre der står (valgfrit).</p>
+
+          <div class="felt">
+            <label for="navn">Navn</label>
+            <input type="text" id="navn" name="navn" placeholder="Fx Mia" autocomplete="given-name" required pattern=".*\S.*" aria-describedby="navn-fejl">
+            <p class="felt__fejl" id="navn-fejl"></p>
+          </div>
+
+          <div class="felt">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" name="email" placeholder="navn@mail.dk" autocomplete="email" required pattern="[^@\s]+@[^@\s]+\.[^@\s]{2,}" aria-describedby="email-fejl">
+            <p class="felt__fejl" id="email-fejl"></p>
+          </div>
+
+          <div class="felt">
+            <label for="emne">Hvad handler det om? <span class="valgfrit">(valgfrit)</span></label>
+            <select class="vaelg" id="emne" name="emne">
+              <option value="">Vælg et emne</option>
+              <option>Spørgsmål om et produkt</option>
+              <option>Min ordre</option>
+              <option>Noget helt tredje</option>
+            </select>
+          </div>
+
+          <div class="felt">
+            <label for="besked-felt">Din besked</label>
+            <textarea id="besked-felt" name="besked" rows="5" placeholder="Skriv din besked her …" required minlength="10" aria-describedby="besked-hint besked-fejl"></textarea>
+            <p class="lille" id="besked-hint">Mindst 10 tegn</p>
+            <p class="felt__fejl" id="besked-fejl"></p>
+          </div>
+
+          <button class="knap" type="submit">Send besked</button>
+          <p class="lille">Når du trykker på ‘Send besked’, accepterer du vores <a href="#privatliv">privatlivspolitik</a>.</p>
+        </form>
+
+        <!-- Tak-besked: vises når formularen er sendt -->
+        <div class="besked-side" id="tak" tabindex="-1" hidden>
+          <img src="img/brand/doodle-tak.svg" alt="" width="120" height="120">
+          <h2 id="tak-titel">Tak!</h2>
+          <p id="tak-tekst"></p>
+          <div class="knapper knapper--midt">
+            <a class="knap" href="index.html">Til forsiden</a>
+            <a class="knap knap--hvid" href="shop.html">Se alle produkter</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <details class="accordion accordion--fersken accordion--midt" id="privatliv">
+      <summary>Sådan bruger vi dine oplysninger</summary>
+      <p>Vi bruger kun dit navn og din e-mail til at svare på din besked. Vi deler dem ikke med andre, og vi sletter beskeden igen efter 6 måneder.</p>
+    </details>
+
+  </main>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="bund">
+    <div class="bund__top">
+      <a class="bund__logo" href="index.html"><img src="img/brand/logo.svg" alt="MUSE – til forsiden" width="123" height="60"></a>
+      <p>Din introduktion til nem &amp; tryg makeup.</p>
+    </div>
+
+    <!-- Hvert link er sit eget tryk-mål på 24 px (WCAG 2.5.8) -->
+    <nav class="bund__links" aria-label="Footer">
+      <ul>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="404.html">Levering</a></li>
+      </ul>
+      <ul>
+        <li><a href="404.html">Hjælp</a></li>
+        <li><a href="kontakt.html">Kontakt</a></li>
+      </ul>
+      <ul>
+        <li><a href="404.html">Om os</a></li>
+        <li><a href="404.html">FAQ</a></li>
+      </ul>
+    </nav>
+
+    <ul class="bund__sociale">
+      <li><a href="https://www.tiktok.com"><img src="img/ikoner/tiktok.svg" alt="TikTok" width="32" height="32"></a></li>
+      <li><a href="https://www.instagram.com"><img src="img/ikoner/instagram.svg" alt="Instagram" width="32" height="32"></a></li>
+      <li><a href="https://www.youtube.com"><img src="img/ikoner/youtube.svg" alt="YouTube" width="32" height="32"></a></li>
+      <li><a href="https://www.snapchat.com"><img src="img/ikoner/snapchat.svg" alt="Snapchat" width="32" height="32"></a></li>
+    </ul>
+
+    <p class="bund__copy">Skabt med 💖 til dig. © MUSE 2026</p>
+  </footer>
+
+  <!-- Lille besked nederst på skærmen (fx "Lagt i kurven") -->
+  <p class="besked" id="besked" role="status"></p>
+
+  <!-- TEAM: skriv jeres JavaScript i js/kontakt.js -->
+  <script src="js/kontakt.js" defer></script>
+</body>
+</html>
