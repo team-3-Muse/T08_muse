@@ -18,3 +18,6 @@
    - Fejloversigt øverst: fjern hidden på #fejloversigt og fyld #fejl-liste med links.
    - Linket "privatlivspolitik" åbner accordionen:  details.open = true
    ========================================================= */
+
+const form = document.querySelector("#kontakt-form");
+const oversigt = document.querySelector("#fejloversigt");
