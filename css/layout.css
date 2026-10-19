@@ -1,0 +1,317 @@
+/* =========================================================
+   layout.css – bruges på alle sider
+   Header, mobilmenu, footer, besked-sider (404, tak) og den lille besked.
+   ---------------------------------------------------------
+   Mobile first: først stilarterne til mobil (uden media query).
+   Tablet 768–1023 px: @media (min-width: 48em) and (max-width: 63.99em)
+   Desktop fra 1024 px: @media (min-width: 64em)
+   ========================================================= */
+
+/* ---------- HEADER OG MOBILMENU ---------- */
+
+.top {
+  background-color: var(--offwhite);
+  border-bottom: 1px solid var(--brun);
+}
+
+/* Mobil: burger – logo – ikoner */
+
+.top__indre {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+}
+
+.burger {
+  display: flex; /* burgeren er et link (a), så den skal centreres som en knap */
+  align-items: center;
+  justify-content: center;
+  width: 51px;
+  height: 48px;
+  background-color: var(--pink);
+  border: 1px solid var(--brun);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.burger svg {
+  display: block;
+  margin: auto;
+}
+
+.top__nav {
+  display: none; /* pills vises kun på desktop */
+}
+
+.top__nav ul {
+  display: flex;
+  gap: 12px;
+}
+
+.logo img {
+  width: 58px;
+  height: auto;
+}
+
+.top__ikoner {
+  display: flex;
+  gap: 17px;
+}
+
+.ikon {
+  display: block;
+  padding: 4px;
+}
+
+.ikon img {
+  width: 24px;
+  height: 24px;
+}
+
+/* Mobilmenuen dækker hele skærmen.
+   Uden JavaScript: menuen er skjult, og vises når adressen er #menu (burgeren linker dertil).
+   Krydset linker til #top og lukker den igen. */
+
+.menu {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  padding: 80px 16px;
+  background-color: var(--offwhite);
+  text-align: center;
+}
+
+.menu:target {
+  display: block;
+}
+
+.menu__luk {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 48px;
+  height: 48px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.menu__liste {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.menu__pill {
+  display: block;
+  width: 257px;
+  padding: 16px;
+  border: 1px solid var(--brun);
+  border-radius: 999px;
+  font-family: var(--overskrift);
+  text-decoration: none;
+}
+
+@media (min-width: 64em) {
+  /* Desktop: pills til venstre – logo i midten – ikoner til højre */
+
+  .top__indre {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    padding: 16px 60px;
+  }
+
+  .burger {
+    display: none;
+  }
+
+  .top__nav {
+    display: block;
+  }
+
+  .logo img {
+    width: 82px;
+  }
+
+  .top__ikoner {
+    justify-self: end;
+    gap: 12px;
+  }
+
+  .menu,
+  .menu:target {
+    display: none; /* mobilmenuen bruges ikke på desktop */
+  }
+}
+
+/* ---------- FOOTER ---------- */
+
+.bund {
+  padding: 40px 0 24px;
+  background-color: var(--himmel);
+  border-top: 1px solid var(--brun);
+  color: var(--plum);
+  text-align: center;
+}
+
+.bund__top {
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--plum);
+}
+
+.bund__logo img {
+  width: 70px;
+  margin: 0 auto 12px;
+}
+
+/* Tre kolonner med to links i hver.
+   Hvert link er 24 px højt, så det er nemt at ramme (WCAG 2.5.8) */
+
+.bund__links {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 16px;
+  border-bottom: 1px solid var(--plum);
+  text-align: left;
+}
+
+.bund__links a {
+  display: block;
+  min-height: 24px;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 24px;
+  text-decoration: none;
+}
+
+.bund__links a:hover {
+  text-decoration: underline;
+}
+
+.bund__sociale {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  padding: 24px 0;
+}
+
+.bund__sociale img {
+  width: 24px;
+  height: 24px;
+}
+
+.bund__copy {
+  font-size: 13px;
+  font-weight: 400;
+}
+
+@media (min-width: 64em) {
+  .bund {
+    padding: 56px 0 24px;
+  }
+
+  .bund__top p {
+    font-size: 18px;
+    font-weight: 400;
+  }
+
+  .bund__logo img {
+    width: 123px;
+  }
+
+  .bund__links {
+    justify-content: center;
+    gap: 160px;
+  }
+
+  .bund__sociale img {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+/* ---------- BESKED-SIDER OG LILLE BESKED ---------- */
+
+.besked-side {
+  padding-block: 40px;
+  text-align: center;
+}
+
+.besked-side img {
+  margin: 0 auto 16px;
+}
+
+.besked-side h1,
+.besked-side h2 {
+  margin-bottom: 12px;
+  font-size: 24px;
+}
+
+.besked-side p {
+  margin-bottom: 24px;
+}
+
+.besked-side--stor {
+  padding-block: 64px;
+}
+
+@media (min-width: 64em) {
+  .besked-side h1,
+  .besked-side h2 {
+    font-size: 32px;
+  }
+}
+
+/* Lille besked nederst ("Lagt i kurven ✓") */
+
+.besked {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  z-index: 60;
+  padding: 16px 28px;
+  background-color: var(--plum);
+  border: 1px solid var(--brun);
+  border-radius: 999px;
+  color: var(--offwhite);
+  font-weight: 700;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 16px);
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.besked--vis {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* ---------- TABLET (768–1023 PX) ---------- */
+
+@media (min-width: 48em) and (max-width: 63.99em) {
+  .top__indre {
+    padding: 16px 24px;
+  }
+
+  .logo img {
+    width: 70px;
+  }
+
+  /* Footer: linkene samles i midten */
+
+  .bund__links {
+    justify-content: center;
+    gap: 80px;
+  }
+
+  .bund__logo img {
+    width: 100px;
+  }
+}

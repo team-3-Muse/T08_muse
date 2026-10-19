@@ -1,0 +1,496 @@
+/* =========================================================
+   forside.css – kun index.html
+   Hero, banner med M-stickers, kategorier og videoer.
+   ---------------------------------------------------------
+   Mobile first: først stilarterne til mobil (uden media query).
+   Tablet 768–1023 px: @media (min-width: 48em) and (max-width: 63.99em)
+   Desktop fra 1024 px: @media (min-width: 64em)
+   ========================================================= */
+
+/* ---------- FORSIDE ---------- */
+
+/* Hero */
+
+.hero {
+  padding-block: 24px 40px;
+  background-color: var(--smoer);
+}
+
+.hero__indre {
+  width: min(1200px, 100% - 32px);
+  margin-inline: auto;
+}
+
+.hero h1 {
+  font-size: 40px;
+}
+
+.hero .intro {
+  margin: 16px 0 24px;
+}
+
+.hero__billede {
+  position: relative;
+  width: 280px;
+  margin: 40px auto 0;
+}
+
+.hero__badge {
+  position: absolute;
+  top: -20px;
+  right: -8px;
+  padding: 8px 12px;
+  background-color: var(--lime);
+  border: 1px solid var(--brun);
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* Kinetisk banner */
+
+.banner {
+  position: relative;
+  overflow: hidden;
+  padding: 24px 0;
+  background-color: var(--plum);
+}
+
+.banner__raekke {
+  display: flex;
+  width: max-content;
+  color: var(--lavendel);
+  font-family: var(--overskrift);
+  font-size: 36px;
+  line-height: 57px;
+  white-space: nowrap;
+  animation: rul 50s linear infinite; /* langsom, så teksten kan læses */
+}
+
+/* Hver anden række kører den anden vej */
+
+.banner__raekke--modsat {
+  animation-direction: reverse;
+}
+
+@keyframes rul {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* M-stickers ligger ovenpå teksten */
+
+.sticker {
+  position: absolute;
+  width: 58px;
+  transition: transform 0.2s;
+}
+
+.sticker:hover {
+  transform: translateY(-4px) scale(1.08) rotate(-4deg);
+}
+
+/* Et tryk (:active) starter vrik-animationen – kun CSS */
+
+.sticker:active {
+  animation: vrik 0.5s;
+}
+
+@keyframes vrik {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(-14deg); }
+  50% { transform: rotate(12deg); }
+  75% { transform: rotate(-8deg); }
+  100% { transform: rotate(0deg); }
+}
+
+/* Placering på mobil (6 stickers) */
+
+.sticker--1 {
+  left: 10%; top: 16%;
+}
+
+.sticker--2 {
+  left: 60%; top: 19%;
+}
+
+.sticker--3 {
+  left: 34%; top: 41%;
+}
+
+.sticker--4 {
+  left: 85%; top: 38%;
+}
+
+.sticker--5 {
+  left: 7%; top: 62%;
+}
+
+.sticker--6 {
+  left: 63%; top: 59%;
+}
+
+.sticker--7,
+.sticker--8,
+.sticker--9 {
+  display: none;
+}
+
+/* Kategorier */
+
+.paneler {
+  display: grid;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.panel {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border-radius: 24px;
+  text-decoration: none;
+  transition: transform 0.2s;
+}
+
+.panel:hover {
+  transform: rotate(1deg);
+}
+
+.panel--makeup {
+  background-color: var(--orange);
+}
+
+.panel--hudpleje {
+  background-color: var(--lavendel);
+}
+
+.panel__billede {
+  width: 96px;
+  flex-shrink: 0;
+  aspect-ratio: 200 / 247;
+  object-fit: cover;
+}
+
+.panel__tekst {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.panel__titel {
+  font-family: var(--overskrift);
+  font-size: 24px;
+}
+
+.panel__knap {
+  margin-top: 4px;
+  padding: 6px 16px;
+  background-color: var(--offwhite);
+  border: 1px solid var(--brun);
+  border-radius: 999px;
+  font-family: var(--overskrift);
+  font-size: 14px;
+}
+
+/* Videoer */
+
+.videoer {
+  margin-block: 24px;
+}
+
+.video {
+  width: 150px;
+}
+
+.video__knap {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  background-color: var(--orange);
+  border: none;
+  border-radius: 28px;
+}
+
+.video__knap img {
+  width: 100%;
+  aspect-ratio: 3 / 5;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.video__knap:hover img {
+  transform: scale(1.05);
+}
+
+.video__navn {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  padding: 4px 10px;
+  background-color: var(--smoer);
+  border: 1px solid var(--brun);
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  transform: translateX(-50%) rotate(5deg);
+}
+
+.video__play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 44px;
+  height: 44px;
+  background-color: rgba(246, 243, 236, 0.6);
+  border: 1px solid rgba(41, 15, 7, 0.5);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Trekanten i play-knappen */
+
+.video__play::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 54%;
+  border-style: solid;
+  border-width: 8px 0 8px 13px;
+  border-color: transparent transparent transparent var(--brun);
+  transform: translate(-50%, -50%);
+}
+
+.video__tid {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  padding: 4px 10px;
+  background-color: rgba(246, 243, 236, 0.6);
+  border: 1px solid rgba(41, 15, 7, 0.5);
+  border-radius: 999px;
+  font-family: var(--overskrift);
+  font-size: 14px;
+}
+
+.video__titel {
+  margin-top: 8px;
+}
+
+@media (min-width: 64em) {
+  .hero {
+    padding-block: 64px;
+  }
+
+  .hero__indre {
+    display: grid;
+    grid-template-columns: 1fr 478px;
+    align-items: center;
+    gap: 130px;
+  }
+
+  .hero h1 {
+    font-size: 64px;
+  }
+
+  .hero__billede {
+    width: 478px;
+    margin: 0;
+  }
+
+  .hero__badge {
+    right: 0;
+  }
+
+  .banner {
+    padding: 36px 0;
+  }
+
+  .banner__raekke {
+    font-size: 68px;
+    line-height: 110px;
+    animation-duration: 90s; /* længere tekst = længere tid, så farten er den samme */
+  }
+
+  .sticker {
+    width: 110px;
+  }
+
+  /* Placering på desktop (9 stickers) */
+
+  .sticker--1 {
+    left: 5%; top: 14%;
+  }
+
+  .sticker--2 {
+    left: 38%; top: 18%;
+  }
+
+  .sticker--3 {
+    left: 73%; top: 14%;
+  }
+
+  .sticker--4 {
+    left: 21%; top: 40%;
+  }
+
+  .sticker--5 {
+    left: 56%; top: 37%;
+  }
+
+  .sticker--6 {
+    left: 89%; top: 40%;
+  }
+
+  .sticker--7 {
+    display: block; left: 5%; top: 59%;
+  }
+
+  .sticker--8 {
+    display: block; left: 38%; top: 63%;
+  }
+
+  .sticker--9 {
+    display: block; left: 73%; top: 59%;
+  }
+
+  .paneler {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .panel {
+    gap: 40px;
+    padding: 24px 32px 24px 24px;
+  }
+
+  .panel__billede {
+    width: 200px;
+  }
+
+  .panel__titel {
+    font-size: 32px;
+  }
+
+  .video {
+    width: calc((100% - 64px) / 3);
+  }
+
+  .video__knap img {
+    aspect-ratio: 3 / 4;
+  }
+
+  .video__titel {
+    font-size: 18px;
+    font-weight: 400;
+  }
+
+  /* På desktop er der plads til alle tre videoer, så pilene skjules */
+
+  .videoer + .pil,
+  #videoer .pil {
+    display: none;
+  }
+}
+
+/* ---------- TABLET (768–1023 PX) ---------- */
+
+@media (min-width: 48em) and (max-width: 63.99em) {
+  .hero__indre {
+    width: min(1200px, 100% - 48px);
+  }
+
+  /* Hero: tekst og billede side om side */
+
+  .hero {
+    padding-block: 48px;
+  }
+
+  .hero__indre {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    align-items: center;
+    gap: 40px;
+  }
+
+  .hero h1 {
+    font-size: 48px;
+  }
+
+  .hero__billede {
+    width: 300px;
+    margin: 0;
+  }
+
+  /* Banner: større tekst og alle 9 stickers */
+
+  .banner__raekke {
+    font-size: 52px;
+    line-height: 80px;
+    animation-duration: 70s;
+  }
+
+  .sticker {
+    width: 80px;
+  }
+
+  .sticker--1 {
+    left: 5%; top: 14%;
+  }
+
+  .sticker--2 {
+    left: 38%; top: 18%;
+  }
+
+  .sticker--3 {
+    left: 73%; top: 14%;
+  }
+
+  .sticker--4 {
+    left: 21%; top: 40%;
+  }
+
+  .sticker--5 {
+    left: 56%; top: 37%;
+  }
+
+  .sticker--6 {
+    left: 87%; top: 40%;
+  }
+
+  .sticker--7 {
+    display: block; left: 5%; top: 62%;
+  }
+
+  .sticker--8 {
+    display: block; left: 38%; top: 65%;
+  }
+
+  .sticker--9 {
+    display: block; left: 73%; top: 62%;
+  }
+
+  /* Kategorier: to paneler side om side */
+
+  .paneler {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .panel__billede {
+    width: 110px;
+  }
+
+  /* Videoer: alle tre er synlige, så pilene skjules */
+
+  .video {
+    width: calc((100% - 32px) / 3);
+  }
+
+  #videoer .pil {
+    display: none;
+  }
+}

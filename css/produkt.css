@@ -1,0 +1,189 @@
+/* =========================================================
+   produkt.css – kun produkt.html
+   Billede og info, citat-boble.
+   ---------------------------------------------------------
+   Mobile first: først stilarterne til mobil (uden media query).
+   Tablet 768–1023 px: @media (min-width: 48em) and (max-width: 63.99em)
+   Desktop fra 1024 px: @media (min-width: 64em)
+   ========================================================= */
+
+/* ---------- PRODUKTSIDE ---------- */
+
+.produkt {
+  padding-block: 24px 40px;
+}
+
+.produkt__grid {
+  margin-top: 24px;
+}
+
+.produkt__billede {
+  position: relative;
+}
+
+.produkt__billede img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+.hjerte--stor {
+  top: 24px;
+  right: 24px;
+}
+
+.hjerte--stor svg {
+  width: 32px;
+  height: 32px;
+}
+
+.produkt__info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.produkt__pris {
+  font-family: var(--overskrift);
+  font-size: 20px;
+  margin-bottom: 4px;
+}
+
+.produkt__info .knapper {
+  margin-top: 16px;
+}
+
+/* Citat: lime boble på pink flade, pile inde i boblen */
+
+.citat {
+  padding: 40px 16px;
+  background-color: var(--pink);
+}
+
+.citat__boble {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  max-width: 629px;
+  min-height: 300px;
+  margin-inline: auto;
+  padding: 40px 14px;
+  background-color: var(--lime);
+  text-align: center;
+}
+
+.citat__tegn {
+  position: absolute;
+  top: 10px;
+  left: 28px;
+  font-family: var(--overskrift);
+  font-size: 96px;
+  line-height: 1;
+}
+
+.citat blockquote {
+  flex: 1;
+  margin: 0;
+}
+
+.citat blockquote p {
+  font-family: var(--overskrift);
+  font-size: 24px;
+  line-height: 1.15;
+}
+
+.citat blockquote footer {
+  margin-top: 16px;
+  font-size: 16px;
+}
+
+.citat .pil {
+  flex-shrink: 0;
+}
+
+@media (min-width: 64em) {
+  .produkt {
+    padding-block: 40px 64px;
+  }
+
+  /* Billede i kolonne 1–5, kolonne 6 er luft, info i kolonne 7–12 */
+
+  .produkt__grid {
+    display: grid;
+    grid-template-columns: 5fr 1fr 6fr;
+    gap: 32px;
+  }
+
+  .produkt__billede {
+    grid-column: 1;
+  }
+
+  .produkt__info {
+    grid-column: 3;
+    margin-top: 0;
+    padding-top: 32px;
+  }
+
+  .produkt__pris {
+    font-size: 24px;
+  }
+
+  .hjerte--stor {
+    top: 40px;
+    right: 40px;
+  }
+
+  .hjerte--stor svg {
+    width: 40px;
+    height: 40px;
+  }
+
+  .citat {
+    padding-block: 40px;
+  }
+
+  .citat__boble {
+    min-height: 475px;
+    padding: 40px 24px;
+  }
+
+  .citat__tegn {
+    top: 30px;
+    left: 60px;
+    font-size: 160px;
+  }
+
+  .citat blockquote p {
+    font-size: 40px;
+    line-height: 1.1;
+  }
+
+  .citat blockquote footer {
+    font-size: 24px;
+  }
+}
+
+/* ---------- TABLET (768–1023 PX) ---------- */
+
+@media (min-width: 48em) and (max-width: 63.99em) {
+  /* Produktside: billede og info side om side */
+
+  .produkt__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .produkt__info {
+    margin-top: 0;
+    padding-top: 24px;
+  }
+
+  .citat blockquote p {
+    font-size: 32px;
+  }
+}

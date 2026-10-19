@@ -1,0 +1,120 @@
+/* =========================================================
+   sog.css – kun sog.html
+   Søgefelt og søgeresultater.
+   ---------------------------------------------------------
+   Mobile first: først stilarterne til mobil (uden media query).
+   Tablet 768–1023 px: @media (min-width: 48em) and (max-width: 63.99em)
+   Desktop fra 1024 px: @media (min-width: 64em)
+   ========================================================= */
+
+/* ---------- SØG ---------- */
+
+.soeg {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 584px;
+  padding: 8px 13px;
+  margin-bottom: 24px;
+  background-color: var(--smoer);
+  border: 1px solid var(--brun);
+  border-radius: 999px;
+}
+
+.soeg:focus-within {
+  outline: 2px solid var(--plum);
+  outline-offset: 3px;
+}
+
+.soeg input {
+  flex: 1;
+  min-width: 0;
+  padding: 4px 0;
+  background: none;
+  border: none;
+  color: var(--brun);
+  font-family: var(--tekst);
+  font-size: 16px;
+  font-weight: 500;
+  outline: none;
+}
+
+.soeg input::-webkit-search-cancel-button {
+  appearance: none; /* browserens eget kryds skjules – vi har vores eget */
+}
+
+.soeg__ryd {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.soeg__antal {
+  margin-block: 24px 16px;
+}
+
+.resultater {
+  display: grid;
+  gap: 16px;
+}
+
+/* Et søgeresultat: billede til venstre, tekst til højre, pil yderst */
+
+.resultat {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 16px 40px 16px 13px;
+  background-color: var(--offwhite);
+  border: 1px solid var(--brun);
+  border-radius: 10px;
+  text-decoration: none;
+  transition: transform 0.2s, background-color 0.2s;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='14'%3E%3Cpath d='M1 1l6 6-6 6' fill='none' stroke='%23290F07' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+}
+
+/* Hover: smørgul og en lille drejning */
+
+.resultat:hover {
+  background-color: var(--smoer);
+  transform: rotate(1deg);
+}
+
+.resultat__billede {
+  width: 90px;
+  aspect-ratio: 90 / 111;
+  object-fit: cover;
+}
+
+.resultat__tekst {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.resultat__navn {
+  font-family: var(--overskrift);
+  font-size: 20px;
+}
+
+@media (min-width: 64em) {
+  .resultater {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ---------- TABLET (768–1023 PX) ---------- */
+
+@media (min-width: 48em) and (max-width: 63.99em) {
+  /* Søg: resultaterne i to kolonner */
+
+  .resultater {
+    grid-template-columns: 1fr 1fr;
+  }
+}

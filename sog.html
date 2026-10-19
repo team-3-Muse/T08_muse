@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Søg – MUSE</title>
+  <meta name="description" content="Søg efter makeup og hudpleje hos MUSE.">
+  <link rel="icon" href="img/brand/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/komponenter.css">
+  <link rel="stylesheet" href="css/shapes.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/sog.css">
+</head>
+<body>
+  <!-- ========== HEADER ========== -->
+  <header class="top" id="top">
+    <div class="top__indre">
+      <a class="burger" href="#menu" aria-controls="menu" aria-label="Åbn menu">
+        <svg width="22" height="16" viewBox="0 0 22 16" aria-hidden="true"><path d="M1 1h20M1 8h20M1 15h20" stroke="#290F07" stroke-width="2" stroke-linecap="round"/></svg>
+      </a>
+
+      <nav class="top__nav" aria-label="Hovedmenu">
+        <ul>
+          <li><a class="pill pill--pink" href="shop.html">Shop</a></li>
+          <li><a class="pill pill--smoer" href="404.html">Om os</a></li>
+          <li><a class="pill pill--fersken" href="kontakt.html">Kontakt</a></li>
+        </ul>
+      </nav>
+
+      <a class="logo" href="index.html"><img src="img/brand/logo.svg" alt="MUSE – til forsiden" width="82" height="40"></a>
+
+      <ul class="top__ikoner">
+        <li><a class="ikon" href="sog.html"><img src="img/ikoner/soeg.svg" alt="Søg" width="24" height="24"></a></li>
+        <li><a class="ikon" href="404.html"><img src="img/ikoner/profil.svg" alt="Profil" width="24" height="24"></a></li>
+        <li><a class="ikon" href="404.html"><img src="img/ikoner/kurv.svg" alt="Kurv" width="24" height="24"></a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- Mobilmenu uden JavaScript: burgeren linker til #menu, og CSS (:target i layout.css) viser menuen.
+       Krydset linker til #top og lukker den igen. -->
+  <div class="menu" id="menu">
+    <a class="menu__luk" href="#top" aria-label="Luk menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4l16 16M20 4L4 20" stroke="#290F07" stroke-width="2" stroke-linecap="round"/></svg>
+    </a>
+    <nav aria-label="Mobilmenu">
+      <ul class="menu__liste">
+        <li><a class="menu__pill pill--pink" href="shop.html">Shop</a></li>
+        <li><a class="menu__pill pill--himmel" href="index.html">Lær at starte</a></li>
+        <li><a class="menu__pill pill--lime" href="index.html#videoer">Community</a></li>
+        <li><a class="menu__pill pill--smoer" href="404.html">Om os</a></li>
+        <li><a class="menu__pill pill--fersken" href="kontakt.html">Hjælp &amp; kontakt</a></li>
+      </ul>
+      <a class="knap" href="404.html">Se din kurv</a>
+    </nav>
+  </div>
+
+  <main id="indhold">
+    <section class="sektion">
+      <div class="indre">
+        <h1 class="skjult">Søg</h1>
+
+        <form class="soeg" role="search" id="soeg-form" action="sog.html" method="get">
+          <label class="skjult" for="soeg">Søg efter produkter</label>
+          <img src="img/ikoner/soeg.svg" alt="" width="20" height="20">
+          <input type="search" id="soeg" name="q" placeholder="Søg fx mascara" autocomplete="off">
+          <button class="soeg__ryd" type="button" id="ryd" aria-label="Ryd søgning">
+            <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1l10 10M11 1L1 11" stroke="#290F07" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+        </form>
+
+        <ul class="chips" aria-label="Kategorier">
+          <li><button class="chip" type="button" data-kategori="alle" aria-pressed="true">Alle</button></li>
+          <li><button class="chip" type="button" data-kategori="makeup" aria-pressed="false">Makeup</button></li>
+          <li><button class="chip" type="button" data-kategori="hudpleje" aria-pressed="false">Hudpleje</button></li>
+        </ul>
+
+        <!-- ============================================================
+             TEAM: Søgningen skal laves i js/sog.js. Hooks (id'er):
+             #soeg (feltet), #ryd (krydset), chips med data-kategori (aria-pressed),
+             #antal (fx "2 resultater for …"), #resultater (listen),
+             #ingen + #ingen-ord (tom tilstand, fjern attributten hidden for at vise den),
+             #se-alle (knappen, bliver pink uden resultater), .forslag (forslags-chips).
+             Søgeordet kan også stå i adressen: sog.html?q=red
+             Hele siden er EKSTRA (ikke et krav i opgaven).
+             ============================================================ -->
+        <p class="soeg__antal" id="antal" aria-live="polite"></p>
+        <ul class="resultater" id="resultater">
+          
+        </ul>
+
+        <!-- Tom tilstand: vises når intet matcher (TEAM: sæt hidden på/af med JS) -->
+        <div class="besked-side" id="ingen" hidden>
+          <img src="img/brand/doodle-search.svg" alt="" width="120" height="120">
+          <h2>Ups!<br>Ingen magi fundet på “<span id="ingen-ord"></span>”</h2>
+          <p>Prøv at søge på noget andet, eller udforsk vores mest elskede favoritter herunder.</p>
+          <ul class="chips chips--midt" aria-label="Forslag">
+            <li><button class="chip forslag" type="button">Mascara</button></li>
+            <li><button class="chip forslag" type="button">Læbestift</button></li>
+            <li><button class="chip forslag" type="button">Neglelak</button></li>
+          </ul>
+        </div>
+
+        <p class="midt"><a class="knap knap--hvid" href="shop.html" id="se-alle">Se alle produkter</a></p>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="bund">
+    <div class="bund__top">
+      <a class="bund__logo" href="index.html"><img src="img/brand/logo.svg" alt="MUSE – til forsiden" width="123" height="60"></a>
+      <p>Din introduktion til nem &amp; tryg makeup.</p>
+    </div>
+
+    <!-- Hvert link er sit eget tryk-mål på 24 px (WCAG 2.5.8) -->
+    <nav class="bund__links" aria-label="Footer">
+      <ul>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="404.html">Levering</a></li>
+      </ul>
+      <ul>
+        <li><a href="404.html">Hjælp</a></li>
+        <li><a href="kontakt.html">Kontakt</a></li>
+      </ul>
+      <ul>
+        <li><a href="404.html">Om os</a></li>
+        <li><a href="404.html">FAQ</a></li>
+      </ul>
+    </nav>
+
+    <ul class="bund__sociale">
+      <li><a href="https://www.tiktok.com"><img src="img/ikoner/tiktok.svg" alt="TikTok" width="32" height="32"></a></li>
+      <li><a href="https://www.instagram.com"><img src="img/ikoner/instagram.svg" alt="Instagram" width="32" height="32"></a></li>
+      <li><a href="https://www.youtube.com"><img src="img/ikoner/youtube.svg" alt="YouTube" width="32" height="32"></a></li>
+      <li><a href="https://www.snapchat.com"><img src="img/ikoner/snapchat.svg" alt="Snapchat" width="32" height="32"></a></li>
+    </ul>
+
+    <p class="bund__copy">Skabt med 💖 til dig. © MUSE 2026</p>
+  </footer>
+
+  <!-- Lille besked nederst på skærmen (fx "Lagt i kurven"). Vis den ved at give den klassen "besked--vis" (se layout.css) -->
+  <p class="besked" id="besked" role="status"></p>
+
+  <!-- TEAM: skriv jeres JavaScript i js/sog.js -->
+  <script src="js/sog.js" defer></script>
+</body>
+</html>
