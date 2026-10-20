@@ -1,12 +1,9 @@
 const productId = new URLSearchParams(window.location.search).get("id");
-const endpoint = "https://dummyjson.com/products/" + encodeURIComponent(productId || "");
+const endpoint = `https://dummyjson.com/products/${productId}`;
 const productImage = document.querySelector("#produkt-billede");
 const productName = document.querySelector("#produkt-navn");
 const productPrice = document.querySelector("#produkt-pris");
 const productBadge = document.querySelector("#produkt-badge");
-const whatText = document.querySelector("#tekst-hvad");
-const howText = document.querySelector("#tekst-saadan");
-const safetyText = document.querySelector("#tekst-tryg");
 const quoteText = document.querySelector("#citat-tekst");
 const quoteName = document.querySelector("#citat-navn");
 const productSection = document.querySelector("#produkt");
@@ -26,21 +23,21 @@ fetch(endpoint)
     productImage.src = product.thumbnail;
     productImage.alt = product.title;
     productName.textContent = product.title;
-    productPrice.textContent = `$ ${product.price}`;
+    productPrice.textContent = `${product.price} DKK`;
     productBadge.textContent = product.brand || product.category;
     productBadge.className = `badge badge--${categoryClass}`;
-    whatText.textContent = product.description;
-    howText.parentElement.hidden = true;
-    safetyText.parentElement.hidden = true;
-    document.title = `${product.title} – MUSE`;
-
+    accordionSection.innerHTML = `
+      <details class="accordion accordion--smoer">
+        <summary>Hvad gør den for dig?</summary>
+        <p>${product.description}</p>
+      </details>
+    `;
     productSection.hidden = false;
     accordionSection.hidden = false;
 
     if (review) {
       quoteText.textContent = review.comment;
       quoteName.textContent = review.reviewerName;
-      quoteSection.setAttribute("aria-label", "Kundeanmeldelse fra DummyJSON");
       quoteSection.hidden = false;
     }
   });

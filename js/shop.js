@@ -1,102 +1,94 @@
 const API = "https://dummyjson.com/products";
 const productList = document.querySelector("#produkter");
 const productCount = document.querySelector("#antal");
-const emptyMessage = document.querySelector("#set-alle");
 const categoryTitle = document.querySelector("#shop-titel");
-const categoryLinks = document.querySelectorAll("[data-kategori]");
 const priceFilters = document.querySelectorAll('input[name="pris"]');
 const sortSelect = document.querySelector("#sorter");
 
-const categoryEndpoints = {
-  makeup: `${API}/category/beauty`,
-  hudpleje: `${API}/category/skin-care`,
-};
+const params = new URLSearchParams(window.location.search);
+const category = params.get("kategori") || "alle";
+let endpoint = `${API}?limit=0`;
+
+if (category === "makeup") {
+  endpoint = `${API}/category/beauty`;
+} else if (category === "hudpleje") {
+  endpoint = `${API}/category/skin-care`;
+}
 
 let allProducts = [];
 let priceFilter = "alle";
-let sortOrder = sortSelect ? sortSelect.value : "populaer";
+let sortOrder = sortSelect.value;
 
-async function loadShop() {
-  const params = new URLSearchParams(window.location.search);
-  const category = params.get("kategori") || "alle";
-
-  const requestedCategories = category === "alle" ? Object.keys(categoryEndpoints) : [category];
-  const responses = await Promise.all(requestedCategories.map((name) => fetch(categoryEndpoints[name])));
-
-  const results = await Promise.all(responses.map((response) => response.json()));
-  const apiProducts = results.flatMap((result) => result.products || []);
-  allProducts = apiProducts;
-
-  categoryTitle.textContent = category === "alle" ? "Shop" : category === "makeup" ? "Makeup" : "Hudpleje";
-  categoryLinks.forEach((link) => {
-    if (link.dataset.kategori === category) {
-      link.setAttribute("aria-current", "page");
+fetch(endpoint)
+  .then((response) => response.json())
+  .then((data) => {
+    if (category === "alle") {
+      allProducts = data.products.filter(
+        (product) => product.category === "beauty" || product.category === "skin-care"
+      );
     } else {
-      link.removeAttribute("aria-current");
+      allProducts = data.products;
     }
+
+    if (category === "makeup") {
+      categoryTitle.textContent = "Makeup";
+    } else if (category === "hudpleje") {
+      categoryTitle.textContent = "Hudpleje";
+    } else {
+      categoryTitle.textContent = "Shop";
+    }
+
+    renderProducts();
   });
-  renderProducts();
-}
 
 function renderProducts() {
   let visibleProducts = allProducts.filter((product) => {
-    if (priceFilter === "under100") return product.price < 100;
-    if (priceFilter === "over100") return product.price >= 100;
-    return true;
+    if (priceFilter === "under100") {
+      return product.price < 100;
+    } else if (priceFilter === "over100") {
+      return product.price >= 100;
+    } else {
+      return true;
+    }
   });
 
   visibleProducts = [...visibleProducts].sort((a, b) => {
-    if (sortOrder === "billig") return a.price - b.price;
-    if (sortOrder === "dyr") return b.price - a.price;
-    return b.rating - a.rating;
+    if (sortOrder === "billig") {
+      return a.price - b.price;
+    } else if (sortOrder === "dyr") {
+      return b.price - a.price;
+    } else {
+      return b.rating - a.rating;
+    }
   });
 
-  productList.replaceChildren();
-  productCount.textContent = `${visibleProducts.length} produkter`;
-  emptyMessage.textContent = visibleProducts.length ? "" : "Ingen produkter matcher dit filter.";
-
+  let markup = "";
   visibleProducts.forEach((product) => {
-    productList.append(createProductCard(product));
+    markup += createProductCard(product);
   });
+
+  productList.innerHTML = markup;
+  productCount.textContent = `${visibleProducts.length} produkter`;
 }
 
 function createProductCard(product) {
-  const item = document.createElement("li");
-  item.className = "kort";
+  const categoryClass = product.category === "beauty" ? "makeup" : "hudpleje";
 
-  const link = document.createElement("a");
-  link.className = "kort__link";
-  link.href = `produkt.html?id=${encodeURIComponent(product.id)}`;
-
-  const imageFrame = document.createElement("span");
-  imageFrame.className = "kort__billede";
-  const image = document.createElement("img");
-  image.src = product.thumbnail;
-  image.alt = product.title;
-  image.width = 850;
-  image.height = 1050;
-  image.loading = "lazy";
-  imageFrame.append(image);
-
-  const name = document.createElement("h2");
-  name.className = "kort__navn";
-  name.textContent = product.title;
-
-  const price = document.createElement("span");
-  price.className = "kort__pris";
-  price.textContent = `$ ${product.price}`;
-
-  const badge = document.createElement("span");
-  badge.className = `badge badge--${product.category === "beauty" ? "makeup" : "hudpleje"}`;
-  badge.textContent = product.brand || product.category;
-
-  link.append(imageFrame, name, price);
-  item.append(link, badge);
-  return item;
+  return `
+    <li class="kort">
+      <a class="kort__link" href="produkt.html?id=${product.id}">
+        <span class="kort__billede">
+          <img src="${product.thumbnail}" alt="${product.title}" width="850" height="1050" loading="lazy">
+        </span>
+        <h2 class="kort__navn">${product.title}</h2>
+        <span class="kort__pris">${product.price} DKK</span>
+      </a>
+      <span class="badge badge--${categoryClass}">${product.brand || product.category}</span>
+    </li>
+  `;
 }
 
 priceFilters.forEach((input) => {
-  input.nextSibling.textContent = input.value === "under100" ? " Under $100" : input.value === "over100" ? " $100 og derover" : " Alle priser ($)";
   input.addEventListener("change", () => {
     if (input.checked) {
       priceFilter = input.value;
@@ -105,13 +97,9 @@ priceFilters.forEach((input) => {
   });
 });
 
-if (sortSelect) {
-  sortSelect.addEventListener("change", () => {
-    sortOrder = sortSelect.value;
-    renderProducts();
-  });
-}
+sortSelect.addEventListener("change", () => {
+  sortOrder = sortSelect.value;
+  renderProducts();
+});
 
-loadShop();
-
-// denne js fil håndterer indlæsning, filtrering og visning af produkter i shoppen
+// Denne JS-fil indlæser, filtrerer, sorterer og viser produkter fra DummyJSON.
