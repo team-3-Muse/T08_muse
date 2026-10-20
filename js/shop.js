@@ -1,45 +1,140 @@
-/* =========================================================
-   shop.js – TEAM: koden til shop.html (listevisning)
-   ---------------------------------------------------------
-   SKAL LAVES (kravene i opgaven) – i denne rækkefølge:
+const API = "https://dummyjson.com/products";
+const productList = document.querySelector("#produkter");
+const productCount = document.querySelector("#antal");
+const emptyMessage = document.querySelector("#set-alle");
+const categoryTitle = document.querySelector("#shop-titel");
+const categoryLinks = document.querySelectorAll("[data-kategori]");
+const priceFilters = document.querySelectorAll('input[name="pris"]');
+const sortSelect = document.querySelector("#sorter");
 
-   1. Læs kategorien fra adressen:
-        const params = new URLSearchParams(window.location.search);
-        const kategori = params.get("kategori");   // "makeup", "hudpleje" eller null
+const categoryEndpoints = {
+  makeup: `${API}/category/beauty`,
+  hudpleje: `${API}/category/skin-care`,
+};
 
-   2. Hent produkterne med fetch:
-        https://dummyjson.com/products/category/beauty      (makeup)
-        https://dummyjson.com/products/category/skin-care   (hudpleje)
-      og vores egne tekster fra  data/produkter.json
-      (nøglen i produkter.json er produktets id i DummyJSON).
+let allProducts = [];
+let priceFilter = "alle";
+let sortOrder = sortSelect ? sortSelect.value : "populaer";
 
-   3. Behold kun de produkter, hvis id står i produkter.json
-      (1, 2, 3, 4, 5, 118, 119, 120 – de har billeder).
-      Navn, pris, billede, badge, form og kategori tager I fra produkter.json.
+async function loadShop() {
+  if (!productList || !productCount || !emptyMessage || !categoryTitle || !sortSelect) {
+    throw new Error("Shop HTML is missing a required element.");
+  }
 
-   4. Er der valgt en kategori? Så vis kun produkter med den kategori.
+  const params = new URLSearchParams(window.location.search);
+  const category = params.get("kategori") || "alle";
+  if (!["alle", "makeup", "hudpleje"].includes(category)) {
+    throw new Error("Unknown product category.");
+  }
 
-   5. Lav HTML til hvert kort (skabelonen herunder), læg dem sammen i en
-      tekst og sæt den ind med  document.querySelector("#produkter").innerHTML = …
+  const localResponse = await fetch("data/produkter.json");
+  if (!localResponse.ok) throw new Error("Could not load data/produkter.json.");
+  const localProducts = await localResponse.json();
 
-   6. Skriv antallet i #antal, fx "8 produkter".
+  const requestedCategories = category === "alle" ? Object.keys(categoryEndpoints) : [category];
+  const responses = await Promise.all(requestedCategories.map((name) => fetch(categoryEndpoints[name])));
+  if (responses.some((response) => !response.ok)) {
+    throw new Error("Could not load products from DummyJSON.");
+  }
 
-   EKSTRA (kun hvis I har tid):
-   - Marker den valgte chip med  setAttribute("aria-current", "page")
-   - Skift overskriften #shop-titel til "Makeup" / "Hudpleje"
-   - Filter på pris (input[name="pris"]) og sortering (#sorter)
-   - Skriv en fejlbesked i #antal, hvis fetch fejler (.catch)
+  const results = await Promise.all(responses.map((response) => response.json()));
+  const apiProducts = results.flatMap((result) => result.products || []);
+  allProducts = apiProducts
+    .filter((product) => {
+      const localProduct = localProducts[product.id];
+      return localProduct && requestedCategories.includes(localProduct.kategori);
+    })
+    .map((product) => ({ ...product, ...localProducts[product.id] }));
 
-   SKABELON TIL ÉT KORT (byt de faste værdier ud med produktets egne):
-     <li class="kort">
-       <a class="kort__link" href="produkt.html?id=4">
-         <span class="kort__billede shape-scallop">
-           <img src="img/products/red-lipstick.webp" alt="..." width="850" height="1050" loading="lazy">
-         </span>
-         <h2 class="kort__navn">Red Lipstick</h2>
-         <span class="kort__pris">79 kr</span>
-       </a>
-       <span class="badge badge--makeup">Blød & fugtig</span>
-     </li>
-   ("shape-" + form giver formen, "badge--" + kategori giver farven)
-   ========================================================= */
+  categoryTitle.textContent = category === "alle" ? "Shop" : category === "makeup" ? "Makeup" : "Hudpleje";
+  categoryLinks.forEach((link) => {
+    if (link.dataset.kategori === category) {
+      link.setAttribute("aria-current", "page");
+    } else {
+      link.removeAttribute("aria-current");
+    }
+  });
+  renderProducts();
+}
+
+function renderProducts() {
+  let visibleProducts = allProducts.filter((product) => {
+    if (priceFilter === "under100") return product.pris < 100;
+    if (priceFilter === "over100") return product.pris >= 100;
+    return true;
+  });
+
+  visibleProducts = [...visibleProducts].sort((a, b) => {
+    if (sortOrder === "billig") return a.pris - b.pris;
+    if (sortOrder === "dyr") return b.pris - a.pris;
+    return a.populaer - b.populaer;
+  });
+
+  productList.replaceChildren();
+  productCount.textContent = `${visibleProducts.length} produkter`;
+  emptyMessage.textContent = visibleProducts.length ? "" : "Ingen produkter matcher dit filter.";
+
+  visibleProducts.forEach((product) => {
+    productList.append(createProductCard(product));
+  });
+}
+
+function createProductCard(product) {
+  const item = document.createElement("li");
+  item.className = "kort";
+
+  const link = document.createElement("a");
+  link.className = "kort__link";
+  link.href = `produkt.html?id=${encodeURIComponent(product.id)}`;
+
+  const imageFrame = document.createElement("span");
+  imageFrame.className = `kort__billede shape-${product.form}`;
+  const image = document.createElement("img");
+  image.src = product.billede;
+  image.alt = product.alt;
+  image.width = 850;
+  image.height = 1050;
+  image.loading = "lazy";
+  imageFrame.append(image);
+
+  const name = document.createElement("h2");
+  name.className = "kort__navn";
+  name.textContent = product.navn;
+
+  const price = document.createElement("span");
+  price.className = "kort__pris";
+  price.textContent = `${product.pris} kr`;
+
+  const badge = document.createElement("span");
+  badge.className = `badge badge--${product.kategori}`;
+  badge.textContent = product.badge;
+
+  link.append(imageFrame, name, price);
+  item.append(link, badge);
+  return item;
+}
+
+priceFilters.forEach((input) => {
+  input.addEventListener("change", () => {
+    if (input.checked) {
+      priceFilter = input.value;
+      renderProducts();
+    }
+  });
+});
+
+if (sortSelect) {
+  sortSelect.addEventListener("change", () => {
+    sortOrder = sortSelect.value;
+    renderProducts();
+  });
+}
+
+loadShop().catch((error) => {
+  console.error("Could not load the shop:", error);
+  if (productList) productList.replaceChildren();
+  if (productCount) productCount.textContent = "Produkterne kunne ikke indlæses.";
+  if (emptyMessage) emptyMessage.textContent = "Kontrollér forbindelsen, og prøv igen.";
+});
+
+// denne js fil håndterer indlæsning, filtrering og visning af produkter i shoppen

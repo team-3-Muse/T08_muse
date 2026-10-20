@@ -1,30 +1,39 @@
-/* =========================================================
-   produkt.js – TEAM: koden til produkt.html (single view)
-   ---------------------------------------------------------
-   SKAL LAVES (kravene i opgaven) – i denne rækkefølge:
+const productId = new URLSearchParams(window.location.search).get("id");
+const endpoint = "https://dummyjson.com/products/" + productId;
+const productImage = document.querySelector("#produkt-billede");
+const productName = document.querySelector("#produkt-navn");
+const productPrice = document.querySelector("#produkt-pris");
+const productBadge = document.querySelector("#produkt-badge");
+const whatText = document.querySelector("#tekst-hvad");
+const howText = document.querySelector("#tekst-saadan");
+const safetyText = document.querySelector("#tekst-tryg");
+const quoteText = document.querySelector("#citat-tekst");
+const quoteName = document.querySelector("#citat-navn");
 
-   1. Læs id'et fra adressen:
-        const params = new URLSearchParams(window.location.search);
-        const id = params.get("id");   // fx "4"
+fetch(endpoint)
+  .then((response) => response.json())
+  .then((apiProduct) => {
+    console.log(apiProduct);
 
-   2. Hent produktet fra DummyJSON:  "https://dummyjson.com/products/" + id
-      og vores tekster fra  data/produkter.json  (brug  produkter[id]).
+    fetch("data/produkter.json")
+      .then((response) => response.json())
+      .then((products) => {
+        const product = products[apiProduct.id];
 
-   3. Findes id'et ikke i produkter.json? Så:
-        - sæt  hidden = true  på #produkt, #accordions og #citat
-        - sæt  hidden = false på #ikke-fundet
-      og stop her.
+        productImage.src = product.billede;
+        productImage.alt = product.alt;
+        productName.textContent = product.navn;
+        productPrice.textContent = `${product.pris} kr`;
+        productBadge.textContent = product.badge;
+        productBadge.className = `badge badge--${product.kategori}`;
+        whatText.textContent = product.hvad;
+        howText.textContent = product.saadan;
+        safetyText.textContent = product.tryg;
+        quoteText.textContent = product.citat;
+        quoteName.textContent = product.citatNavn;
 
-   4. Udfyld siden med textContent (og src/alt på billedet):
-        #produkt-billede (src og alt), #produkt-navn, #produkt-pris (fx "79 kr"),
-        #produkt-badge (tekst + klassen "badge--makeup" eller "badge--hudpleje"),
-        #tekst-hvad, #tekst-saadan, #tekst-tryg,
-        #citat-tekst, #citat-navn
-      Skift også fanen:  document.title = navn + " – MUSE";
+        document.title = `${product.navn} – MUSE`;
+      });
+  });
 
-   EKSTRA (kun hvis I har tid):
-   - "Læg i kurv" (#laeg-i-kurv): giv #besked teksten "Lagt i kurven ✓" og klassen
-     "besked--vis", og fjern klassen igen efter 2 sekunder (setTimeout).
-   - "Du vil også elske": tegn de andre produkter i #mere med samme kort som
-     i shoppen (men med h3), og fjern hidden på #mere-sektion.
-   ========================================================= */
+// denne fil håndterer indlæsning og visning af et enkelt produkt baseret på ID fra URL'en
