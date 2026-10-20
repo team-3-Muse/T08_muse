@@ -6,7 +6,12 @@ const priceFilters = document.querySelectorAll('input[name="pris"]');
 const sortSelect = document.querySelector("#sorter");
 
 const params = new URLSearchParams(window.location.search);
-const category = params.get("kategori") || "alle";
+let category = params.get("kategori") || "alle";
+
+if (category !== "makeup" && category !== "hudpleje") {
+  category = "alle";
+}
+
 let endpoint = `${API}?limit=0`;
 
 if (category === "makeup") {

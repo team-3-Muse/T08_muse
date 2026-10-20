@@ -20,4 +20,18 @@
    ========================================================= */
 
 const form = document.querySelector("#kontakt-form");
-const oversigt = document.querySelector("#fejloversigt");
+const tak = document.querySelector("#tak");
+const takTitel = document.querySelector("#tak-titel");
+
+function handleSubmit(event) {
+  event.preventDefault();
+
+  if (form.checkValidity()) {
+    const formData = new FormData(form);
+    form.hidden = true;
+    tak.hidden = false;
+    takTitel.textContent = "Tak, " + formData.get("navn");
+  }
+}
+
+form.addEventListener("submit", handleSubmit);
