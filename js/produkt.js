@@ -64,3 +64,24 @@ fetch("data/produkter.json")
       });
   })
   .catch(showNotFound);
+// "Gem"-knappen: skifter mellem Gem og Gemt ♥ og viser en lille besked
+const saveButton = document.querySelector("#gem");
+const message = document.querySelector("#besked");
+
+saveButton.addEventListener("click", () => {
+  const saved = saveButton.getAttribute("aria-pressed") === "true";
+  saveButton.setAttribute("aria-pressed", saved ? "false" : "true");
+  saveButton.textContent = saved ? "Gem" : "Gemt ♥";
+  message.textContent = saved ? "Fjernet fra dine favoritter" : "Gemt i dine favoritter ♥";
+  message.classList.add("besked--vis");
+  setTimeout(() => message.classList.remove("besked--vis"), 2000);
+});
+
+// "Læg i kurv"-knappen: viser en lille besked nederst
+const cartButton = document.querySelector("#laeg-i-kurv");
+
+cartButton.addEventListener("click", () => {
+  message.textContent = "Lagt i kurven ✓";
+  message.classList.add("besked--vis");
+  setTimeout(() => message.classList.remove("besked--vis"), 2000);
+});
