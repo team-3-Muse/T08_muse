@@ -1,17 +1,3 @@
-/* =========================================================
-   sog.js – TEAM: koden til sog.html
-   ---------------------------------------------------------
-   HELE SØGESIDEN ER EKSTRA – den er ikke et krav i opgaven.
-   Lav shop, produkt og kontakt først.
-
-   Hvis I har tid:
-   1. Hent produkterne som i shop.js.
-   2. Lyt efter "input" på #soeg. Vis de produkter, hvor navnet (eller "soegeord"
-      fra produkter.json) indeholder det, man skriver (toLowerCase + includes).
-   3. Tegn resultaterne i #resultater, og skriv antallet i #antal.
-   4. Intet fundet: fjern hidden på #ingen og skriv ordet i #ingen-ord.
-   ========================================================= */
-
 const API = "https://dummyjson.com/products";
 const searchInput = document.querySelector("#soeg");
 const clearButton = document.querySelector("#ryd");
@@ -30,18 +16,60 @@ let allProducts = [];
 let selectedCategory = "alle";
 
 fetch(`${API}?limit=0`)
+  // Henter produktlisten fra DummyJSON.
   .then((response) => response.json())
+  // Læser produktlisten som JSON-data.
   .then((data) => {
-    allProducts = data.products.filter((product) => product.category === "beauty" || product.category === "skin-care");
-    renderResults();
+    // Giver adgang til produkterne fra DummyJSON.
+    fetch("data/produkter.json")
+      // Henter MUSE-oplysningerne fra projektets lokale produktfil.
+      .then((response) => response.json())
+      // Læser den lokale produktfil som JSON-data.
+      .then((localProducts) => {
+        // Giver adgang til MUSE-oplysningerne.
+        allProducts = data.products
+          // Starter med produkterne fra DummyJSON.
+          .filter((product) => localProducts[product.id] && (product.category === "beauty" || product.category === "skin-care"))
+          // Beholder kun produkter, som findes i MUSE-filen, og som hører til makeup eller hudpleje.
+          .map((product) => {
+            // Gør hvert produkt klar med MUSE-oplysningerne.
+            const localProduct = localProducts[product.id];
+            // Finder MUSE-oplysningerne med samme id som DummyJSON-produktet.
+            return {
+              // Samler oplysningerne, som søgeresultatet skal vise.
+              id: product.id,
+              // Beholder produktets id til linket til produktsiden.
+              title: localProduct.navn,
+              // Bruger produktnavnet fra MUSE-filen.
+              category: localProduct.kategori,
+              // Bruger MUSE-kategorien til kategorifilteret.
+              price: localProduct.pris,
+              // Bruger MUSE-prisen.
+              thumbnail: localProduct.billede,
+              // Bruger MUSE-billedet.
+              alt: localProduct.alt,
+              // Bruger MUSE-billedets beskrivende tekst.
+              keywords: localProduct.soegeord,
+              // Bruger MUSE-søgeordene sammen med produktnavnet.
+            };
+            // Afslutter det samlede produkt til søgeresultatet.
+          });
+        // Afslutter udvælgelsen og tilpasningen af produktlisten.
+        renderResults();
+        // Viser de produkter, der passer til søgningen og kategorien.
+      });
+    // Afslutter indlæsningen af MUSE-oplysningerne.
   });
+// Afslutter indlæsningen af produktdata.
 
 function renderResults() {
   const searchWord = searchInput.value.trim().toLowerCase();
 
   const visibleProducts = allProducts.filter((product) => {
-    const matchesCategory = selectedCategory === "alle" || (selectedCategory === "makeup" && product.category === "beauty") || (selectedCategory === "hudpleje" && product.category === "skin-care");
-    const matchesName = product.title.toLowerCase().includes(searchWord);
+    const matchesCategory = selectedCategory === "alle" || product.category === selectedCategory;
+    // Tjekker om produktet passer til den valgte MUSE-kategori.
+    const matchesName = product.title.toLowerCase().includes(searchWord) || product.keywords.toLowerCase().includes(searchWord);
+    // Tjekker om søgeordet findes i produktnavnet eller MUSE-søgeordene.
 
     return matchesCategory && matchesName;
   });
@@ -74,7 +102,7 @@ function createProductResult(product) {
   return `
     <li>
       <a class="resultat" href="produkt.html?id=${product.id}">
-        <img class="resultat__billede" src="${product.thumbnail}" alt="${product.title}">
+        <img class="resultat__billede" src="${product.thumbnail}" alt="${product.alt}">
         <span class="resultat__tekst">
           <span class="resultat__navn">${product.title}</span>
           <span>${product.price} DKK</span>
@@ -82,6 +110,7 @@ function createProductResult(product) {
       </a>
     </li>
   `;
+  // Tegner søgeresultatet med MUSE-billede, navn, billedtekst og pris.
 }
 
 searchInput.addEventListener("input", renderResults);
