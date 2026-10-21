@@ -144,18 +144,15 @@ suggestionButtons.forEach((button) => {
 // koden virker sådan her: brugeren indtaster en søgeforespørgsel, vælger en kategori, og resultaterne opdateres dynamisk baseret på disse kriterier.
 
 // js kode gloser:
-//const er en måde at erklære en variabel på, som ikke kan ændres senere i koden.
-//let er en måde at erklære en variabel på, som kan ændres senere i koden.
-// function er en måde at erklære en funktion på, som kan genbruges flere steder i koden.
-// addEventListener er en metode, der bruges til at tilføje en hændelseslytter til et HTML-element, så man kan reagere på brugerinteraktioner som klik eller input.
-// forEach er en metode, der bruges til at iterere over en liste af elementer og udføre en funktion for hvert element.
-// hidden er en egenskab, der bruges til at skjule eller vise et HTML-element baseret på en betingelse.
-// classList er en egenskab, der bruges til at tilføje, fjerne eller kontrollere CSS-klasser på et HTML-element.
-// template literals (``) er en måde at indsætte variabler og udtryk direkte i en streng ved hjælp af ${}.
-// trim() er en metode, der fjerner mellemrum fra starten og slutningen af en streng.
-// querySelector er en metode, der bruges til at vælge det første HTML-element, der matcher en CSS-selector.
-// getAttribute er en metode, der bruges til at hente værdien af et attribut på et HTML-element.
-// setAttribute er en metode, der bruges til at sætte værdien af et attribut på et HTML-element.
-// addEventListener er en metode, der bruges til at tilføje en hændelseslytter til et HTML-element, så man kan reagere på brugerinteraktioner som klik eller input.
-// textContent er en egenskab, der bruges til at få eller sætte teksten inde i et HTML-element.
-// aria-pressed er en egenskab, der bruges til at angive, om en knap er trykket ned eller ej, hvilket er nyttigt for tilgængelighed.
+// searchInput: input-feltet hvor brugeren skriver søgeordet.
+// renderResults: funktion der opdaterer søgeresultaterne baseret på søgeord og kategori.
+// visibleProducts: listen af produkter der matcher søgeord og kategori.
+// createProductResult: funktion der genererer HTML for et enkelt søgeresultat.
+// resultList: elementet hvor søgeresultaterne vises.
+// resultCount: elementet der viser antal resultater.
+// emptyState: elementet der vises når ingen produkter matcher.
+// emptyWord: elementet der viser det søgte ord når ingen produkter matcher.
+// seeAllLink: linket til at se alle produkter.
+// categoryButtons: knapperne til at vælge produktkategori.
+// suggestionButtons: knapperne med forslag til søgeord.
+// selectedCategory: den aktuelt valgte kategori.
