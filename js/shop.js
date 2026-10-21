@@ -2,6 +2,8 @@ const API = "https://dummyjson.com/products";
 const productList = document.querySelector("#produkter");
 const productCount = document.querySelector("#antal");
 const categoryTitle = document.querySelector("#shop-titel");
+const categoryButtons = document.querySelectorAll(".chips [data-kategori]");
+const message = document.querySelector("#besked");
 const priceFilters = document.querySelectorAll('input[name="pris"]');
 const sortSelect = document.querySelector("#sorter");
 
@@ -11,6 +13,14 @@ let category = params.get("kategori") || "alle";
 if (category !== "makeup" && category !== "hudpleje") {
   category = "alle";
 }
+
+categoryButtons.forEach((button) => {
+  if (button.getAttribute("data-kategori") === category) {
+    button.setAttribute("aria-current", "page");
+  } else {
+    button.removeAttribute("aria-current");
+  }
+});
 
 let endpoint = `${API}?limit=0`;
 
@@ -28,9 +38,7 @@ fetch(endpoint)
   .then((response) => response.json())
   .then((data) => {
     if (category === "alle") {
-      allProducts = data.products.filter(
-        (product) => product.category === "beauty" || product.category === "skin-care"
-      );
+      allProducts = data.products.filter((product) => product.category === "beauty" || product.category === "skin-care");
     } else {
       allProducts = data.products;
     }
@@ -44,6 +52,12 @@ fetch(endpoint)
     }
 
     renderProducts();
+  })
+  .catch(() => {
+    productList.innerHTML = "";
+    productCount.textContent = "Produkterne kunne ikke hentes.";
+    message.textContent = "Produkterne kunne ikke hentes. Prøv igen senere.";
+    message.classList.add("besked--vis");
   });
 
 function renderProducts() {
@@ -108,3 +122,4 @@ sortSelect.addEventListener("change", () => {
 });
 
 // Denne JS-fil indlæser, filtrerer, sorterer og viser produkter fra DummyJSON.
+// mangler at have billeder fra prototypen. kan eventuelt finde en måde at integrere content, men api'et. det må jeg lige se på
