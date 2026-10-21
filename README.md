@@ -1,50 +1,48 @@
-# MUSE – version uden JavaScript (skelet til teamet)
+# MUSE – makeup og hudpleje
 
-Samme design som det færdige MUSE-site, men **uden logik**. HTML og CSS er færdige. I skriver selv JavaScript til **shop**, **produkt** og **kontakt** – det er det, opgaven kræver. Resten er ekstra.
+MUSE er et website om makeup og hudpleje. Produkterne vises på shop-, produkt- og søgesiderne. DummyJSON leverer produktdata, og den lokale produktfil indeholder MUSE-indhold som danske navne, priser, billeder og beskrivelser.
+
+## Sådan åbnes sitet
 
 Åbn GitHub-repoet, og klik på sitets link under **About** for at åbne websitet.
 
-## Det virker allerede (uden JS)
+## Sider
 
-- **Forsiden** og **404-siden**: banner, stickers (hover og tryk) og video-listen, man kan swipe.
-- **Mobilmenuen**: burgeren linker til `#menu`, og CSS viser menuen. Krydset lukker den.
-- **Kategori-chips i shoppen**: de er links (`shop.html?kategori=makeup`), så de skifter allerede adressen.
-- **Kontaktformularen**: HTML-valideringen står i formularen, og browseren viser selv fejlene. Den bruger `method="get"`, så den aldrig giver en fejlside på GitHub Pages.
-- **Accordions** på produktsiden: `details`/`summary` åbner og lukker uden JS.
+- **Forsiden (`index.html`)**: introducerer MUSE og viser sidens indhold.
+- **Shop (`shop.html`)**: henter produkter fra DummyJSON, viser produkter der findes i `data/produkter.json`, og bruger de lokale MUSE-oplysninger på produktkortene. Kategorierne, prisvalget og sorteringen opdaterer produktlisten.
+- **Produkt (`produkt.html`)**: læser produktets `id` fra adressen, henter produktet fra DummyJSON og bruger samme id til at finde MUSE-navn, pris, billede og tekster lokalt. Et ugyldigt eller ukendt id får endnu ikke vist sidens besked om, at produktet ikke findes.
+- **Kontakt (`kontakt.html`)**: browseren kontrollerer formularfelterne. Når formularen er gyldig, viser JavaScript en tak-besked. Beskeden sendes eller gemmes ikke på en server.
+- **Søg (`sog.html`)**: `js/sog.js` er under tilpasning, så søgesiden kommer til at passe sammen med MUSE-indholdet.
+- **404 (`404.html`)**: vises, når en side ikke findes.
 
-## Jeres opgaver – i denne rækkefølge
+## DummyJSON og MUSE-indhold
 
-Hver js-fil har en kort tjekliste øverst med de id'er, I skal bruge.
+DummyJSON er sitets eneste eksterne produkt-API. Shoppen henter produktlisten eller en kategori, og produktsiden henter ét produkt ud fra dets id.
 
-| # | Fil | Skal laves (krav) | Ekstra, hvis der er tid |
-|---|---|---|---|
-| 1 | `js/shop.js` | Hent produkter med fetch, tegn kortene i `#produkter`, vis kun den valgte kategori (`?kategori=`), skriv antal i `#antal` | Marker valgt chip, skift overskrift, prisfilter, sortering, fejlbesked |
-| 2 | `js/produkt.js` | Læs `?id=`, udfyld siden, vis »Produktet findes ikke« ved forkert id | »Læg i kurv«-besked, »Du vil også elske« |
-| 3 | `js/kontakt.js` | `preventDefault()` og vis tak-beskeden, når formularen er gyldig | Egne danske fejlbeskeder og fejloversigt |
-| – | `js/sog.js` | – | Hele søgesiden er ekstra |
+`data/produkter.json` supplerer de matchende produkter med MUSE-indhold. Produkt-id'et er forbindelsen mellem kilderne. Den lokale fil indeholder blandt andet danske produktnavne, priser i DKK, billeder fra `img/products/`, billedtekster, badges og beskrivelser. DummyJSON bruges altså til produktlisten, kategorien og id'et; det lokale indhold giver produkterne deres MUSE-udtryk.
 
-Tre små funktioner er nok til det meste: **hente** (fetch), **tegne** (lave HTML og sætte den ind med `innerHTML`) og **filtrere** (`filter`).
+Den lokale fil har MUSE-oplysninger for id `1`–`5` og `118`–`120`. Shop- og produktsiden slår produkter op med disse id'er. `js/sog.js` er under tilpasning.
 
-## Data
+## Filer og mapper
 
-- **DummyJSON:** `https://dummyjson.com/products/category/beauty` (makeup), `https://dummyjson.com/products/category/skin-care` (hudpleje) og `https://dummyjson.com/products/4` (ét produkt).
-- **`data/produkter.json`:** vores egne navne, priser, billeder, badges, tekster og citater. Nøglen er produktets id i DummyJSON. Kun disse 8 id'er har billeder: 1, 2, 3, 4, 5, 118, 119, 120.
-
-## Forenklet i denne version
-
-For at gøre opgaven overskuelig er disse ting taget ud af HTML'en: favorit-hjerterne, »Gem«-knappen, pilene på citatet og eksempel-kortene. »Du vil også elske« er skjult (`hidden`), indtil I tegner kortene. Det må gerne mangle i afleveringen.
-
-## Mapper
-
-```
-css/    base, komponenter, shapes, layout (alle sider) + én fil pr. side
-js/     shop.js, produkt.js, kontakt.js, sog.js – tomme, kun tjekliste
-data/   produkter.json
-fonts/  Fredoka og Quicksand
-img/    produkter, kategorier, hero, videoer, stickers, ikoner og logo
+```text
+index.html, shop.html, produkt.html, kontakt.html, sog.html, 404.html
+css/       fælles stil og sidernes udseende
+js/        shop.js, produkt.js, kontakt.js, sog.js
+data/      produkter.json med MUSE-oplysninger knyttet til produkt-id'er
+fonts/     skrifttyper
+img/       logo, produktbilleder og øvrige billeder
 ```
 
-## Husk
+## Tjek før aflevering
 
-- Skriv korte kommentarer i jeres kode (hvad gør funktionen?) – de skal med i den tekniske dokumentation.
-- Rapportens tekniske slides (opbygning, navngivning, database) skal beskrive **jeres** kode, når den er færdig.
+- Prøv shop-siden med alle produkter og med hver kategori. Kontrollér også prisvalg og sortering.
+- Åbn et produkt fra shoppen, og kontrollér at id'et i adressen viser det rigtige MUSE-produkt.
+- Prøv også et ugyldigt produkt-id, og kontrollér at beskeden om manglende produkt vises; det mangler endnu i den nuværende JavaScript.
+- Prøv søgning, kategoriknapper, ryd-knappen og søgninger uden resultater, når tilpasningen af `js/sog.js` er færdig.
+- Prøv kontaktformularen både med manglende/ugyldige felter og med gyldige oplysninger. Tak-beskeden er kun lokal; formularen sender ikke en besked.
+- Sammenlign siderne med prototypen på både mobil og computer.
+
+## Dokumentation
+
+Den tekniske dokumentation og rapportens beskrivelser skal passe til den kode og de funktioner, der faktisk indgår i den endelige version.
