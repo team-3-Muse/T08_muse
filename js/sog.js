@@ -29,19 +29,46 @@ searchInput.value = params.get("q") || "";
 let allProducts = [];
 let selectedCategory = "alle";
 
-fetch(`${API}?limit=0`)
+let museData = {};
+
+// Blander et DummyJSON-produkt med vores egne data fra produkter.json
+function mergeProduct(product) {
+  const mine = museData[product.id];
+  return {
+    id: product.id,
+    category: mine.kategori, // "makeup" eller "hudpleje"
+    title: mine.navn,
+    price: mine.pris,
+    image: mine.billede,
+    alt: mine.alt,
+    searchWords: mine.soegeord
+  };
+}
+
+// 1. Hent vores egne data  2. Hent DummyJSON  3. Behold kun vores 8 produkter
+fetch("data/produkter.json")
   .then((response) => response.json())
   .then((data) => {
-    allProducts = data.products.filter((product) => product.category === "beauty" || product.category === "skin-care");
+    museData = data;
+    return fetch(`${API}?limit=0`);
+  })
+  .then((response) => response.json())
+  .then((data) => {
+    allProducts = data.products
+      .filter((product) => museData[product.id])
+      .map(mergeProduct);
     renderResults();
+  })
+  .catch(() => {
+    resultCount.textContent = "Produkterne kunne ikke hentes lige nu. Prøv igen om lidt.";
   });
 
 function renderResults() {
   const searchWord = searchInput.value.trim().toLowerCase();
 
   const visibleProducts = allProducts.filter((product) => {
-    const matchesCategory = selectedCategory === "alle" || (selectedCategory === "makeup" && product.category === "beauty") || (selectedCategory === "hudpleje" && product.category === "skin-care");
-    const matchesName = product.title.toLowerCase().includes(searchWord);
+    const matchesCategory = selectedCategory === "alle" || product.category === selectedCategory;
+    const matchesName = product.title.toLowerCase().includes(searchWord) || product.searchWords.includes(searchWord);
 
     return matchesCategory && matchesName;
   });
@@ -74,10 +101,10 @@ function createProductResult(product) {
   return `
     <li>
       <a class="resultat" href="produkt.html?id=${product.id}">
-        <img class="resultat__billede" src="${product.thumbnail}" alt="${product.title}">
+        <img class="resultat__billede" src="${product.image}" alt="${product.alt}">
         <span class="resultat__tekst">
           <span class="resultat__navn">${product.title}</span>
-          <span>${product.price} DKK</span>
+          <span>${product.price} kr</span>
         </span>
       </a>
     </li>
