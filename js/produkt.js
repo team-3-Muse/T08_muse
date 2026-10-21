@@ -61,6 +61,7 @@ fetch("data/produkter.json")
         productSection.hidden = false;
         accordionSection.hidden = false;
         quoteSection.hidden = false;
+        showMore();
       });
   })
   .catch(showNotFound);
@@ -85,3 +86,29 @@ cartButton.addEventListener("click", () => {
   message.classList.add("besked--vis");
   setTimeout(() => message.classList.remove("besked--vis"), 2000);
 });
+
+// "Du vil også elske": viser de andre produkter fra vores egen produkter.json
+function showMore() {
+  const moreList = document.querySelector("#mere");
+  const moreSection = document.querySelector("#mere-sektion");
+  let markup = "";
+
+  Object.values(museData).forEach((p) => {
+    if (String(p.id) !== productId) {
+      markup += `
+        <li class="kort">
+          <a class="kort__link" href="produkt.html?id=${p.id}">
+            <span class="kort__billede shape-${p.form}">
+              <img src="${p.billede}" alt="${p.alt}" width="850" height="1050" loading="lazy">
+            </span>
+            <h3 class="kort__navn">${p.navn}</h3>
+            <span class="kort__pris">${p.pris} kr</span>
+          </a>
+          <span class="badge badge--${p.kategori}">${p.badge}</span>
+        </li>`;
+    }
+  });
+
+  moreList.innerHTML = markup;
+  moreSection.hidden = false;
+}
