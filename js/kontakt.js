@@ -35,3 +35,9 @@ function handleSubmit(event) {
 }
 
 form.addEventListener("submit", handleSubmit);
+
+// denne js fungere på denne måde:
+// - Lytter efter submit på kontaktformularen.
+// - Forhindrer standardformularens afsendelse.
+// - Tjekker om formularen er valid.
+// - Hvis valid: skjuler formularen, viser tak-beskeden og indsætter navnet i tak-titlen.

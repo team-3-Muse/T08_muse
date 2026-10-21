@@ -37,21 +37,55 @@ let sortOrder = sortSelect.value;
 fetch(endpoint)
   .then((response) => response.json())
   .then((data) => {
-    if (category === "alle") {
-      allProducts = data.products.filter((product) => product.category === "beauty" || product.category === "skin-care");
-    } else {
-      allProducts = data.products;
-    }
+    fetch("data/produkter.json")
+      // Hent MUSE-oplysningerne lokalt efter produktlisten fra DummyJSON.
+      .then((response) => response.json())
+      // Læser JSON-svaret, så opslaget kan bruges som JavaScript-data.
+      .then((localProducts) => {
+        const apiProducts = data.products.filter((product) => {
+          const localProduct = localProducts[product.id];
+          // Finder MUSE-produktet med samme id som API-produktet.
+          return localProduct && (category === "alle" || localProduct.kategori === category);
+          // Beholder kun match, der passer til den valgte kategori.
+        });
 
-    if (category === "makeup") {
-      categoryTitle.textContent = "Makeup";
-    } else if (category === "hudpleje") {
-      categoryTitle.textContent = "Hudpleje";
-    } else {
-      categoryTitle.textContent = "Shop";
-    }
+        allProducts = apiProducts.map((product) => {
+          const localProduct = localProducts[product.id];
+          // Finder de MUSE-oplysninger, der skal vises for dette produkt.
+          return {
+            id: product.id,
+            // Beholder DummyJSON-id'et, som produktlinket bruger.
+            category: product.category,
+            // Beholder produktets kategori fra DummyJSON.
+            title: localProduct.navn,
+            // Viser MUSE-navnet på kortet.
+            price: localProduct.pris,
+            // Viser prisen fra projektets lokale data.
+            rating: localProduct.populaer,
+            // Bruger den lokale værdi ved sortering.
+            thumbnail: localProduct.billede,
+            // Bruger billedstien fra den lokale produktfil.
+            alt: localProduct.alt,
+            // Giver billedet en beskrivelse til skærmlæsere.
+            badge: localProduct.badge,
+            // Viser MUSE-badget på produktkortet.
+            localCategory: localProduct.kategori,
+            // Bruger den lokale kategori til badgets stil.
+            form: localProduct.form,
+            // Bruger den lokale form til CSS-klassen omkring billedet.
+          };
+        });
 
-    renderProducts();
+        if (category === "makeup") {
+          categoryTitle.textContent = "Makeup";
+        } else if (category === "hudpleje") {
+          categoryTitle.textContent = "Hudpleje";
+        } else {
+          categoryTitle.textContent = "Shop";
+        }
+
+        renderProducts();
+      });
   })
   .catch(() => {
     productList.innerHTML = "";
@@ -91,18 +125,22 @@ function renderProducts() {
 }
 
 function createProductCard(product) {
-  const categoryClass = product.category === "beauty" ? "makeup" : "hudpleje";
+  const categoryClass = product.localCategory;
+  // Klassen til badget følger produktets lokale MUSE-kategori.
 
   return `
     <li class="kort">
       <a class="kort__link" href="produkt.html?id=${product.id}">
-        <span class="kort__billede">
-          <img src="${product.thumbnail}" alt="${product.title}" width="850" height="1050" loading="lazy">
+        <span class="kort__billede shape-${product.form}">
+          <!-- Klassen former billedfeltet efter MUSE-data. -->
+          <img src="${product.thumbnail}" alt="${product.alt}" width="850" height="1050" loading="lazy">
+          <!-- Billedsti og beskrivelse kommer fra den lokale produktfil. -->
         </span>
         <h2 class="kort__navn">${product.title}</h2>
         <span class="kort__pris">${product.price} DKK</span>
       </a>
-      <span class="badge badge--${categoryClass}">${product.brand || product.category}</span>
+      <span class="badge badge--${categoryClass}">${product.badge}</span>
+      <!-- Badge-tekst og kategoriens styling kommer fra MUSE-data. -->
     </li>
   `;
 }
@@ -121,5 +159,4 @@ sortSelect.addEventListener("change", () => {
   renderProducts();
 });
 
-// Denne JS-fil indlæser, filtrerer, sorterer og viser produkter fra DummyJSON.
-// mangler at have billeder fra prototypen. kan eventuelt finde en måde at integrere content, men api'et. det må jeg lige se på
+// DummyJSON leverer produkt-id og kategori; lokale MUSE-data leverer kortenes indhold.

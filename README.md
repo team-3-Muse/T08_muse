@@ -2,7 +2,7 @@
 
 Samme design som det færdige MUSE-site, men **uden logik**. HTML og CSS er færdige. I skriver selv JavaScript til **shop**, **produkt** og **kontakt** – det er det, opgaven kræver. Resten er ekstra.
 
-Kør sitet med **Live Server** i VS Code (eller `python3 -m http.server`). `fetch` virker ikke, hvis man bare dobbeltklikker på HTML-filen.
+Åbn GitHub-repoet, og klik på sitets link under **About** for at åbne websitet.
 
 ## Det virker allerede (uden JS)
 
