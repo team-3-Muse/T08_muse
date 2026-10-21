@@ -41,3 +41,15 @@ form.addEventListener("submit", handleSubmit);
 // - Forhindrer standardformularens afsendelse.
 // - Tjekker om formularen er valid.
 // - Hvis valid: skjuler formularen, viser tak-beskeden og indsætter navnet i tak-titlen.
+
+// kode gloser:
+// form: referencen til kontaktformularen.
+// tak: referencen til tak-beskeden.
+// takTitel: referencen til elementet, hvor tak-titlen vises.
+// handleSubmit: funktionen, der håndterer formularens submit.
+// event.preventDefault(): forhindrer standardformularens afsendelse.
+// form.checkValidity(): tjekker om formularen er valid.
+// FormData: objektet, der bruges til at hente værdier fra formularen.
+// form.hidden: skjuler formularen.
+// tak.hidden: viser tak-beskeden.
+// takTitel.textContent: indsætter navnet i tak-titlen.
