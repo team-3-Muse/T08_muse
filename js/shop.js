@@ -111,7 +111,7 @@ function renderProducts() {
     } else if (sortOrder === "dyr") {
       return b.price - a.price;
     } else {
-      return b.rating - a.rating;
+      return a.rating - b.rating;
     }
   });
 
@@ -137,7 +137,7 @@ function createProductCard(product) {
           <!-- Billedsti og beskrivelse kommer fra den lokale produktfil. -->
         </span>
         <h2 class="kort__navn">${product.title}</h2>
-        <span class="kort__pris">${product.price} DKK</span>
+        <span class="kort__pris">${product.price} kr</span>
       </a>
       <span class="badge badge--${categoryClass}">${product.badge}</span>
       <!-- Badge-tekst og kategoriens styling kommer fra MUSE-data. -->

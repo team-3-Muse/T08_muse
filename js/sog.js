@@ -105,7 +105,7 @@ function createProductResult(product) {
         <img class="resultat__billede" src="${product.thumbnail}" alt="${product.alt}">
         <span class="resultat__tekst">
           <span class="resultat__navn">${product.title}</span>
-          <span>${product.price} DKK</span>
+          <span>${product.price} kr</span>
         </span>
       </a>
     </li>
